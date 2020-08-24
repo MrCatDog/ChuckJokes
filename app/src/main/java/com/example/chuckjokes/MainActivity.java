@@ -1,5 +1,6 @@
 package com.example.chuckjokes;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -15,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener());
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);//?? NULL?
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
     }
 }

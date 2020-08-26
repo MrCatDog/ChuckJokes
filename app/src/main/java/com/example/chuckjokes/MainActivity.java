@@ -16,9 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener());
-        // Цвет навигации становился чуть ярче, вот суть:
-        // https://github.com/material-components/material-components-android/issues/1148
-        bottomNavigationView.setElevation(0);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);//?? NULL?
         getSupportActionBar().setCustomView(R.layout.action_bar);

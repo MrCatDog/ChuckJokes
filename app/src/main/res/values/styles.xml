@@ -11,6 +11,7 @@
     </style>
 
     <style name="BottomNavigation">
+        <item name="elevation">0dp</item>
         <item name="itemTextColor">@color/bottom_nav_color</item>
         <item name="itemIconTint">@color/bottom_nav_color</item>
     </style>

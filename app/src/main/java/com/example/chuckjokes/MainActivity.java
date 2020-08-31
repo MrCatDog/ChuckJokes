@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener());
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener(getSupportFragmentManager()));
+        bottomNavigationView.setSelectedItemId(R.id.page_1);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);//?? NULL?
         getSupportActionBar().setCustomView(R.layout.action_bar);

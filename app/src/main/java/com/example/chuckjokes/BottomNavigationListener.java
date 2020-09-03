@@ -10,9 +10,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavigationListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    FragmentManager manager;
-    JokesFragment jokesFragment;
-    BrowserFragment browserFragment;
+    private FragmentManager manager;
+    private JokesFragment jokesFragment;
+    private BrowserFragment browserFragment;
 
     BottomNavigationListener(@NonNull FragmentManager fragmentManager) {
         manager = fragmentManager;

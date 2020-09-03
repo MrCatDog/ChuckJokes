@@ -8,6 +8,7 @@
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimaryLight</item>
         <item name="colorSurface">@color/colorPrimary</item>
+        <item name="windowActionBarOverlay">false</item>
     </style>
 
     <style name="BottomNavigation">

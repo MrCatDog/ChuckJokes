@@ -1,7 +1,6 @@
 package com.example.chuckjokes;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,11 +12,11 @@ import android.view.ViewGroup;
 
 public class JokesFragment extends Fragment {
 
-    Runnable dataReceiver;
+    SimpleDataReceiver dataReceiver;
     private Handler mHandler = new Handler();
 
-    JokesFragment(FragmentManager fragmentManager) {
-        dataReceiver = new SimpleDataReceiver(fragmentManager);
+    JokesFragment(MainActivity mainActivity) {
+        dataReceiver = new SimpleDataReceiver(mainActivity, "http://api.icndb.com/jokes/random/");
     }
 
     @Override

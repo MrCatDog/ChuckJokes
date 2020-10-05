@@ -22,11 +22,9 @@ public class BottomNavigationListener implements BottomNavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.page_1:
                 fragment = new JokesFragment(mainActivity);
-                //manager.beginTransaction().replace(R.id.fragmentView,jokesFragment).commit();
                 break;
             case R.id.page_2:
                 fragment = new BrowserFragment();
-                //manager.beginTransaction().replace(R.id.fragmentView,browserFragment).commit();
                 break;
         }
         mainActivity.changeFragment(fragment);

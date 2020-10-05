@@ -5,10 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MainActivity extends AppCompatActivity {
+
+    private final FragmentChanger fragmentChanger = new FragmentChanger(getSupportFragmentManager());
+    private final Handler mHandler = new Handler();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();//Может нужно больше?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeFragment(Fragment newFragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentView,newFragment).commit();
+        executor.submit(fragmentChanger.changeFragment(newFragment));
     }
 }

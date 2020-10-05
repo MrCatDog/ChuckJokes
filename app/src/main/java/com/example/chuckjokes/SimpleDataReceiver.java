@@ -1,49 +1,35 @@
 package com.example.chuckjokes;
 
-import android.util.Log;
-
 import java.lang.ref.WeakReference;
+import java.util.concurrent.Callable;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SimpleDataReceiver implements Runnable {
+public class SimpleDataReceiver {
 
     private WeakReference<MainActivity> mainActivityWeakReference;
     private final OkHttpClient client;
-    private String url;
 
-    SimpleDataReceiver(MainActivity mainActivity, String url) {
+    SimpleDataReceiver(MainActivity mainActivity) {
         this.mainActivityWeakReference = new WeakReference<>(mainActivity);
         this.client = new OkHttpClient();
-        this.url = url;
     }
 
-    public void setUrl(String url) {
-        this.url=url;
-    }
-
-    public void run() {
-        receiveData();
-    }
-
-    public boolean receiveData() {
-        return receiveData(10);
-    }
-
-    public boolean receiveData(int count) {
-        Request request = new Request.Builder().url(url+count).build();
-        try (Response response = client.newCall(request).execute()){
-            Log.d("answer", response.toString());
-            if(response.isSuccessful()) {
-
+    public Callable<String> receiveData(String url, int count) {
+        return () -> {
+            Request request = new Request.Builder().url(url+count).build();
+            try (Response response = this.client.newCall(request).execute()){
+                if(response.isSuccessful()) {
+                    return response.body().string();
+                }
+            } catch (Exception error) {
+                ErrorFragment errorFragment = new ErrorFragment(error);
+                final MainActivity activity = this.mainActivityWeakReference.get();
+                activity.changeFragment(errorFragment);
             }
-        } catch (Exception error) {
-            ErrorFragment errorFragment = new ErrorFragment(error);
-            final MainActivity activity = mainActivityWeakReference.get();
-            activity.changeFragment(errorFragment);
-        }
-        return false;
+            return "";
+        };
     }
 }

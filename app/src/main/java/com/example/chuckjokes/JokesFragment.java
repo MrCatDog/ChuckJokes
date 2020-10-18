@@ -1,11 +1,11 @@
 package com.example.chuckjokes;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +18,6 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-import java.util.zip.Inflater;
 
 public class JokesFragment extends Fragment {
 
@@ -49,7 +48,8 @@ public class JokesFragment extends Fragment {
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(jokesList.getContext(),
                 LLM.getOrientation());
-        dividerItemDecoration.setDrawable(getResources().getDrawable( R.drawable.divider_item_shape));
+        dividerItemDecoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_item_shape, null));//Да блять, а тут откуда
+
         jokesList.addItemDecoration(dividerItemDecoration);
 
         return jokesList;

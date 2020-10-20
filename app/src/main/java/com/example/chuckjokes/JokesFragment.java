@@ -7,21 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-
 public class JokesFragment extends Fragment {
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
     private final SimpleDataReceiver dataReceiver;
 
     JokesFragment(MainActivity mainActivity) {
@@ -35,16 +27,11 @@ public class JokesFragment extends Fragment {
         LinearLayoutManager LLM = new LinearLayoutManager(getContext());
         jokesList.setLayoutManager(LLM);
 
+        RecyclerAdapter RA = new RecyclerAdapter(dataReceiver);
 
-        FutureTask<String> future = new FutureTask<>(dataReceiver.receiveData("http://api.icndb.com/jokes/random/", 10));
-        executor.submit(future);
+        jokesList.setAdapter(RA);
 
-        try {
-            JSONArray jArray =  new JSONObject(future.get()).getJSONArray("value");
-            jokesList.setAdapter(new RecyclerAdapter(jArray));
-        } catch (Exception ex) {
-            Log.d("exception",ex.toString());
-        }
+        RA.reciveData(10);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(jokesList.getContext(),
                 LLM.getOrientation());

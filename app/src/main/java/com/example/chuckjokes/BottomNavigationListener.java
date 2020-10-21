@@ -5,6 +5,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.chuckjokes.Browser.BrowserFragment;
+import com.example.chuckjokes.Jokes.JokesFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

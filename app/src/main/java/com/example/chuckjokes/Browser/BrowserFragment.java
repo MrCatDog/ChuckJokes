@@ -1,4 +1,4 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes.Browser;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.chuckjokes.R;
 
 public class BrowserFragment extends Fragment {
     @Override

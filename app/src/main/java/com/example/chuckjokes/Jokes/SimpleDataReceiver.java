@@ -1,4 +1,7 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes.Jokes;
+
+import com.example.chuckjokes.Error.ErrorFragment;
+import com.example.chuckjokes.MainActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Callable;

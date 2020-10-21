@@ -1,4 +1,4 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes.Jokes;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.chuckjokes.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,7 +20,7 @@ import java.util.concurrent.FutureTask;
 public class RecyclerAdapter extends RecyclerView.Adapter {
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private JSONArray jsonArray;
+    private JSONArray jsonArray = new JSONArray();
     private final SimpleDataReceiver dataReceiver;
 
     RecyclerAdapter(SimpleDataReceiver dataReceiver) {
@@ -52,12 +54,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         return jsonArray.length();
     }
 
-    public void reciveData(int count) {
+    public void receiveData(int count) {
         FutureTask<String> future = new FutureTask<>(dataReceiver.receiveData("http://api.icndb.com/jokes/random/", count));
         executor.submit(future);
 
         try {
-            this.jsonArray =  new JSONObject(future.get()).getJSONArray("value");//тут добавить через цикл хотяб
+            JSONArray answer = new JSONObject(future.get()).getJSONArray("value");
+            for(int i=0;i<count;i++) {
+                this.jsonArray.put(answer.getJSONObject(i));
+            }
+            //this.jsonArray =  new JSONObject(future.get()).getJSONArray("value");//тут добавить через цикл хотяб
         } catch (Exception ex) {
             Log.d("exception",ex.toString());
         }

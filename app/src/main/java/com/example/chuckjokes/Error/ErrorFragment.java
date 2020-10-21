@@ -1,4 +1,4 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes.Error;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.chuckjokes.R;
+
 public class ErrorFragment extends Fragment {
     String errMsg;
 
-    ErrorFragment(Exception err) {
+    public ErrorFragment(Exception err) {
         errMsg = err.getLocalizedMessage();
     }
 

@@ -1,4 +1,4 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes.Browser;
 
 import android.webkit.WebView;
 import android.webkit.WebViewClient;

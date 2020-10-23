@@ -32,7 +32,7 @@ public class JokesFragment extends Fragment {
 
         RecyclerAdapter RA = new RecyclerAdapter(dataReceiver);
         jokesList.setAdapter(RA);
-        RA.receiveData(10);
+        RA.receiveData(jokesList,10);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(jokesList.getContext(), LLM.getOrientation());
         dividerItemDecoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_item_shape, null));//Да блять, а тут откуда

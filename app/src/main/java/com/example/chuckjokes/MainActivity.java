@@ -25,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener(this));
         bottomNavigationView.setSelectedItemId(R.id.page_1);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);//?? NULL?
-        getSupportActionBar().setCustomView(R.layout.action_bar);
+        setSupportActionBar(findViewById(R.id.toolbar));
+
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);//?? NULL?
+        //getSupportActionBar().setCustomView(R.layout.action_bar);
     }
 
     public void changeFragment(Fragment newFragment) {

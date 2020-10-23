@@ -40,7 +40,7 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         // threshold should reflect how many total columns there are too
         if (!loading && (LLM.findLastVisibleItemPosition() + visibleThreshold) > totalItemCount) {
-            onLoadMore();
+            onLoadMore(view);
             loading = true;
         }
     }
@@ -52,8 +52,8 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
     }
 
     // Defines the process for actually loading more data
-    private void onLoadMore() {
-        RA.receiveData(15);
+    private void onLoadMore(RecyclerView recyclerView) {
+        RA.receiveData(recyclerView,15);
     }
 
 }

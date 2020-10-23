@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class BottomNavigationListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private Fragment fragment;
-    private MainActivity mainActivity;
+    private final MainActivity mainActivity;
 
     BottomNavigationListener(@NonNull MainActivity mainActivity) {
         this.mainActivity = mainActivity;

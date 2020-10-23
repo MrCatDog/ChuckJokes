@@ -1,13 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimaryLight</item>
         <item name="colorSurface">@color/colorPrimary</item>
+    </style>
+
+    <style name="toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="BottomNavigation">

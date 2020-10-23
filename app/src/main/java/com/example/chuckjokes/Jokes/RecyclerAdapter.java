@@ -2,6 +2,7 @@ package com.example.chuckjokes.Jokes;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -17,7 +18,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-public class RecyclerAdapter extends RecyclerView.Adapter {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH>{
+
+    static class VH extends RecyclerView.ViewHolder {
+
+        private final TextView ID;
+        private final TextView jokeText;
+
+        public VH(View itemView) {
+            super(itemView);
+            ID = itemView.findViewById(R.id.jokeID);
+            jokeText = itemView.findViewById(R.id.jokeText);
+        }
+    }
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private JSONArray jsonArray = new JSONArray();
@@ -29,24 +42,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RecyclerView.ViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.joke_item,parent,false)
-        ) {};
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.joke_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TextView jokeID = holder.itemView.findViewById(R.id.jokeID);
-        TextView jokeText = holder.itemView.findViewById(R.id.jokeText);
-
+    public void onBindViewHolder(@NonNull VH holder, int position) {
         try {
-            jokeID.setText("#" + jsonArray.getJSONObject(position).getString("id")); //meh, "you will can not translate text" they said;  i said "How the fuck you gonna translate '#'?".
-            jokeText.setText(jsonArray.getJSONObject(position).getString("joke"));
+            holder.ID.setText("#" + jsonArray.getJSONObject(position).getString("id")); //meh, "you will can not translate text" they said;  i said "How the fuck you gonna translate '#'?".
+            holder.jokeText.setText(jsonArray.getJSONObject(position).getString("joke"));
         } catch (Exception ex) {
             Log.d("exception",ex.toString());
         }
-
     }
 
     @Override
@@ -54,7 +61,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         return jsonArray.length();
     }
 
-    public void receiveData(int count) {
+    public void receiveData(RecyclerView recyclerView, int count) {
         FutureTask<String> future = new FutureTask<>(dataReceiver.receiveData("http://api.icndb.com/jokes/random/", count));
         executor.submit(future);
 
@@ -63,12 +70,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             for(int i=0;i<count;i++) {
                 this.jsonArray.put(answer.getJSONObject(i));
             }
-            //this.jsonArray =  new JSONObject(future.get()).getJSONArray("value");//тут добавить через цикл хотяб
         } catch (Exception ex) {
             Log.d("exception",ex.toString());
         }
 
-        notifyDataSetChanged();
+        recyclerView.post(this::notifyDataSetChanged);
+
     }
 
 

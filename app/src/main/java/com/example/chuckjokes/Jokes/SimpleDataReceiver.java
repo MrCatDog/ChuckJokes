@@ -12,17 +12,17 @@ import okhttp3.Response;
 
 public class SimpleDataReceiver {
 
-    private WeakReference<MainActivity> mainActivityWeakReference;
+    private final WeakReference<MainActivity> mainActivityWeakReference;
     private final OkHttpClient client;
 
-    SimpleDataReceiver(MainActivity mainActivity) {
-        this.mainActivityWeakReference = new WeakReference<>(mainActivity);
+    SimpleDataReceiver(WeakReference<MainActivity> mainActivity) {
+        this.mainActivityWeakReference = mainActivity;
         this.client = new OkHttpClient();
     }
 
     public Callable<String> receiveData(String url, int count) {
         return () -> {
-            Request request = new Request.Builder().url(url+count).build();
+            Request request = new Request.Builder().url(url+count+"?escape=javascript").build(); //"?escape=javascript" for correct form of quotes(non &quot;)
             try (Response response = this.client.newCall(request).execute()){
                 if(response.isSuccessful()) {
                     return response.body().string();

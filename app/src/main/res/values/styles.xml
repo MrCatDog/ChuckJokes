@@ -2,23 +2,39 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimaryLight</item>
         <item name="colorSurface">@color/colorPrimary</item>
-    </style>
-
-    <style name="toolbar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:gravity">center</item>
     </style>
 
     <style name="BottomNavigation">
         <item name="elevation">0dp</item>
         <item name="itemTextColor">@color/bottom_nav_color</item>
         <item name="itemIconTint">@color/bottom_nav_color</item>
+    </style>
+
+    <style name="toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="toolbarTitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/toolbar_title_text_size</item>
+        <item name="android:textColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="CustomPopup">
+        <item name="android:colorBackground">@color/colorSecondary</item>
+        <item name="android:popupBackground">@color/colorSecondary</item>
+        <item name="android:itemBackground">@color/colorSecondary</item>
+        <item name="backgroundSplit">@color/colorSecondary</item>
+        <item name="backgroundColor">@color/colorSecondary</item>
+        <item name="background">@color/colorSecondary</item>
+        <item name="android:background">@color/colorSecondary</item>
+        <item name="backgroundOverlayColorAlpha">@color/colorSecondary</item>
     </style>
 
 </resources>

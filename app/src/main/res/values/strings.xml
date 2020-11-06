@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">ChuckJokes</string>
-    <string name="Browser">Browser</string>
-    <string name="Jokes">Jokes</string>
+    <string name="app_name" translatable="false">ChuckJokes</string>
+    <string name="Browser" translatable="true">Browser</string>
+    <string name="Jokes" translatable="true">Jokes</string>
+    <string name="MenuAbout" translatable="true">Info</string>
+    <string name="more_about_error_text">More...</string>
 </resources>

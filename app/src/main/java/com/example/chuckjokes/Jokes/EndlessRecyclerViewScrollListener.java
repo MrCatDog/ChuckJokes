@@ -3,6 +3,8 @@ package com.example.chuckjokes.Jokes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -24,7 +26,7 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
     // We are given a few useful parameters to help us work out if we need to load some more data,
     // but first we check if we are waiting for the previous load to finish.
     @Override
-    public void onScrolled(RecyclerView view, int dx, int dy) {
+    public void onScrolled(@NotNull RecyclerView view, int dx, int dy) {
         int totalItemCount = LLM.getItemCount();
 
         // If it’s still loading, we check to see if the dataset count has

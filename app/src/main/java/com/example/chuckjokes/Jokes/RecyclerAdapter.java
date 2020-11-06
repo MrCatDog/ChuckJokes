@@ -9,11 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chuckjokes.Error.ErrorFragment;
+import com.example.chuckjokes.MainActivity;
 import com.example.chuckjokes.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -24,20 +27,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH>{
 
         private final TextView ID;
         private final TextView jokeText;
+        private final TextView categories;
 
         public VH(View itemView) {
             super(itemView);
             ID = itemView.findViewById(R.id.jokeID);
+            categories = itemView.findViewById(R.id.categories);
             jokeText = itemView.findViewById(R.id.jokeText);
         }
     }
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final WeakReference<MainActivity> mainActivityWeakReference;
     private JSONArray jsonArray = new JSONArray();
     private final SimpleDataReceiver dataReceiver;
 
-    RecyclerAdapter(SimpleDataReceiver dataReceiver) {
-        this.dataReceiver = dataReceiver;
+    RecyclerAdapter(WeakReference<MainActivity> mainActivityWeakReference) {
+        this.mainActivityWeakReference = mainActivityWeakReference;
+        this.dataReceiver = new SimpleDataReceiver(this.mainActivityWeakReference);
     }
 
     @NonNull
@@ -49,16 +56,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH>{
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         try {
-            holder.ID.setText("#" + jsonArray.getJSONObject(position).getString("id")); //meh, "you will can not translate text" they said;  i said "How the fuck you gonna translate '#'?".
-            holder.jokeText.setText(jsonArray.getJSONObject(position).getString("joke"));
+            JSONObject jsonObject = jsonArray.getJSONObject(position);
+            holder.ID.setText("#" + jsonObject.getString("id")); //meh, "you will can not translate text" they said;  i said "How the fuck you gonna translate '#'?".
+            holder.categories.setText(jsonToString(jsonObject.getJSONArray("categories")));//no foreach for JSONArray in org.json.JSONArray?
+            holder.jokeText.setText(jsonObject.getString("joke"));
         } catch (Exception ex) {
-            Log.d("exception",ex.toString());
+            ErrorFragment errorFragment = new ErrorFragment(ex);
+            final MainActivity activity = this.mainActivityWeakReference.get();
+            activity.changeFragment(errorFragment);
         }
     }
 
     @Override
     public int getItemCount() {
         return jsonArray.length();
+    }
+
+    private String jsonToString(JSONArray ja) throws org.json.JSONException {
+        if(ja.length() <= 0)
+            return "";
+        String str = ja.getString(0);
+        for(int i = 1; i<ja.length(); i++)
+            str = str.concat(","+ja.getString(i));
+        return str;
     }
 
     public void receiveData(RecyclerView recyclerView, int count) {

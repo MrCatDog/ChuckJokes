@@ -14,23 +14,24 @@ import android.view.ViewGroup;
 import com.example.chuckjokes.MainActivity;
 import com.example.chuckjokes.R;
 
+import java.lang.ref.WeakReference;
+
 public class JokesFragment extends Fragment {
 
-
-    private final SimpleDataReceiver dataReceiver;
+    private final WeakReference<MainActivity> mainActivityWeakReference;
 
     public JokesFragment(MainActivity mainActivity) {
-        dataReceiver = new SimpleDataReceiver(mainActivity);
+        this.mainActivityWeakReference = new WeakReference<>(mainActivity);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView jokesList = (RecyclerView) inflater.inflate(R.layout.jokes_fragment, null);
+        RecyclerView jokesList = (RecyclerView) inflater.inflate(R.layout.jokes_fragment, container, false);
         LinearLayoutManager LLM = new LinearLayoutManager(getContext());
         jokesList.setLayoutManager(LLM);
 
-        RecyclerAdapter RA = new RecyclerAdapter(dataReceiver);
+        RecyclerAdapter RA = new RecyclerAdapter(this.mainActivityWeakReference);
         jokesList.setAdapter(RA);
         RA.receiveData(jokesList,10);
 

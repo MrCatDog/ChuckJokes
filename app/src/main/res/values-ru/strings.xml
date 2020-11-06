@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Browser">Браузер</string>
+    <string name="Jokes">Шутки</string>
+    <string name="MenuAbout">Информация</string>
+    <string name="more_about_error_text">Подробнее...</string>
+</resources>

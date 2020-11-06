@@ -1,10 +1,13 @@
 package com.example.chuckjokes;
 
-import androidx.appcompat.app.ActionBar;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,13 +28,20 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener(this));
         bottomNavigationView.setSelectedItemId(R.id.page_1);
 
-        setSupportActionBar(findViewById(R.id.toolbar));
+        ImageButton menu = findViewById(R.id.menuBtn);
+        menu.setOnClickListener(v -> {
+            //ContextThemeWrapper ctw = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopup);
+            //PopupMenu popup = new PopupMenu(ctw, v);
+            PopupMenu popup = new PopupMenu(MainActivity.this, v);
+            popup.setOnMenuItemClickListener(new ToolbarMenu());
+            popup.inflate(R.menu.overflow_menu);
+            popup.show();
+        });
 
-        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);//?? NULL?
-        //getSupportActionBar().setCustomView(R.layout.action_bar);
     }
 
     public void changeFragment(Fragment newFragment) {
         executor.submit(fragmentChanger.changeFragment(newFragment));
     }
+
 }

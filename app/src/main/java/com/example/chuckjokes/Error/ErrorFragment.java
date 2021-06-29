@@ -4,47 +4,49 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.chuckjokes.R;
+import com.example.chuckjokes.databinding.ErrorFragmentBinding;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import org.jetbrains.annotations.NotNull;
 
 public class ErrorFragment extends Fragment {
-    final Exception err;
+
+    private final ErrorPresenter presenter;
+
+    private ErrorFragmentBinding binding;
 
     public ErrorFragment(Exception err) {
-        this.err = err;
+        this.presenter = new ErrorPresenter(this, err);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        this.err.printStackTrace(pw);
 
-        View errContainer = inflater.inflate(R.layout.error_fragment, container, false);
+        binding = ErrorFragmentBinding.inflate(inflater);
 
-        TextView baseInfo = errContainer.findViewById(R.id.error_base_info);
-        baseInfo.setText(err.getLocalizedMessage());
+        presenter.setError();
 
-        TextView extendInfo = errContainer.findViewById(R.id.more_about_error);
-        extendInfo.setText(sw.toString());
-        extendInfo.setVisibility(View.GONE);
+        binding.moreAboutErrorBut.setOnClickListener(unused -> presenter.onMoreBtnClicked());
 
-        Button moreBut = errContainer.findViewById(R.id.more_about_error_but);
-        moreBut.setOnClickListener((View v) -> {
-            if(extendInfo.getVisibility() == View.GONE)
-                extendInfo.setVisibility(View.VISIBLE);
-            else
-                extendInfo.setVisibility(View.GONE);
-        });
+        return binding.getRoot();
+    }
 
-        return errContainer;
+    public void setBaseText(String text) {
+        binding.errorBaseInfo.setText(text);
+    }
+
+    public int getExtendVisibility() {
+        return binding.moreAboutError.getVisibility();
+    }
+
+    public void setExtendVisibility(int state) {
+        binding.moreAboutError.setVisibility(state);
+    }
+
+    public void setExtendText(String text) {
+        binding.moreAboutError.setText(text);
     }
 
 }

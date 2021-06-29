@@ -3,5 +3,9 @@
     <string name="Browser" translatable="true">Browser</string>
     <string name="Jokes" translatable="true">Jokes</string>
     <string name="MenuAbout" translatable="true">Info</string>
-    <string name="more_about_error_text">More...</string>
+    <string name="more_about_error_text">More…</string>
+    <string name="dialog_close">Close</string>
+    <string name="dialog_write">Contact me</string>
+    <string name="dialog_msg" translatable="false">Lore Ipsum</string>
+    <string name="dialog_header">About</string>
 </resources>

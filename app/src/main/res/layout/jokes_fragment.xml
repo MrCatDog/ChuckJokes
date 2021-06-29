@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/JokesList"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbarThumbVertical="@color/colorSecondary"
-    >
-</androidx.recyclerview.widget.RecyclerView>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/JokesList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/jokes_horizontal_padding"
+    android:scrollbarStyle="outsideOverlay"
+    android:scrollbarThumbVertical="@color/colorSecondary"
+    android:scrollbars="vertical"/>

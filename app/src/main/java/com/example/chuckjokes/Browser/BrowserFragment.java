@@ -6,49 +6,52 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.ProgressBar;
+import android.webkit.WebViewClient;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.chuckjokes.R;
+import com.example.chuckjokes.databinding.BrowserFragmentBinding;
+
+import org.jetbrains.annotations.NotNull;
 
 public class BrowserFragment extends Fragment {
 
-    WebView content;
-    ProgressBar progressBar;
+    private BrowserFragmentBinding binding;
+    private BrowserPresenter presenter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View browserView = inflater.inflate(R.layout.browser_fragment, container, false);
+        binding = BrowserFragmentBinding.inflate(inflater);
 
-        content = browserView.findViewById(R.id.browser);
-        progressBar = browserView.findViewById(R.id.progressBar);
+        presenter = new BrowserPresenter(this);
+        presenter.initWebView();
 
-        content.setWebViewClient(new EasyWebClient());
+        return binding.getRoot();
+    }
 
-        content.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView wv, int progress) {
-                progressBar.setProgress(progress);
-                if(progress == 100)
-                    progressBar.setVisibility(View.GONE);
-                else
-                    progressBar.setVisibility(View.VISIBLE);
-            }
-        });
+    public void setProgress(int progress) {
+        binding.progressBar.setProgress(progress);
+    }
 
-        WebSettings settings = content.getSettings();
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
-        settings.setBuiltInZoomControls(true);
-        settings.setDisplayZoomControls(false);
-        settings.setJavaScriptEnabled(true);
+    public void setProgressBarVisibility(int state) {
+        binding.progressBar.setVisibility(state);
+    }
 
-        content.loadUrl("http://www.icndb.com/api/");
+    public void setWebViewClient(WebViewClient client) {
+        binding.browser.setWebViewClient(client);
+    }
 
-        return browserView;
+    public void setWebChromeClient(WebChromeClient client) {
+        binding.browser.setWebChromeClient(client);
+    }
+
+    public WebSettings getSettings() {
+        return binding.browser.getSettings();
+    }
+
+    public void loadURL(String url) {
+        binding.browser.loadUrl(url);
     }
 }

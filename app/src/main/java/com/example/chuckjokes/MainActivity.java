@@ -1,47 +1,46 @@
 package com.example.chuckjokes;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.widget.ImageButton;
 
+import com.example.chuckjokes.MainPresenter.MainPresenter;
+import com.example.chuckjokes.databinding.ActivityMainBinding;
+import com.example.chuckjokes.databinding.CustomToolbarBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final FragmentChanger fragmentChanger = new FragmentChanger(getSupportFragmentManager());
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();//Может нужно больше?
+    private ActivityMainBinding binding;
+    private CustomToolbarBinding toolbarBinding;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        toolbarBinding = CustomToolbarBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationListener(this));
-        bottomNavigationView.setSelectedItemId(R.id.page_1);
+        presenter = new MainPresenter(this);
+        presenter.init();
 
         ImageButton menu = findViewById(R.id.menuBtn);
-        menu.setOnClickListener(v -> {
-            //ContextThemeWrapper ctw = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopup);
-            //PopupMenu popup = new PopupMenu(ctw, v);
-            PopupMenu popup = new PopupMenu(MainActivity.this, v);
-            popup.setOnMenuItemClickListener(new ToolbarMenu());
-            popup.inflate(R.menu.overflow_menu);
-            popup.show();
-        });
+        menu.setOnClickListener(v-> presenter.menuBtnClicked(v));//с биндингом не работает, поЧАМУ?
+    }
 
+    public void setBottomNavigationItemListener(BottomNavigationView.OnNavigationItemSelectedListener listener) {
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(listener);
+    }
+
+    public void setBottomSelectedItem(int itemID) {
+        binding.bottomNavigation.setSelectedItemId(itemID);
     }
 
     public void changeFragment(Fragment newFragment) {
-        executor.submit(fragmentChanger.changeFragment(newFragment));
+        getSupportFragmentManager().beginTransaction().replace(binding.fragmentView.getId(), newFragment).commit();
     }
 
 }

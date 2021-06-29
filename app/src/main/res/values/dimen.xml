@@ -2,4 +2,19 @@
 <resources>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="toolbar_title_text_size">22sp</dimen>
+
+    <dimen name="progress_height">8dp</dimen>
+
+    <dimen name="custom_dialog_padding">5dp</dimen>
+    <dimen name="custom_dialog_title_image_padding">5dp</dimen>
+    <dimen name="custom_dialog_delimiter_size">1dp</dimen>
+
+    <dimen name="toolbar_image_btn_size">24dp</dimen>
+
+    <dimen name="error_padding">5dp</dimen>
+
+    <dimen name="joke_item_padding">10dp</dimen>
+    <dimen name="joke_item_delimiter_size">1dp</dimen>
+
+    <dimen name="jokes_horizontal_padding">5dp</dimen>
 </resources>

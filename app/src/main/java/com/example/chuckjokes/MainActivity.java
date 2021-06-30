@@ -1,42 +1,53 @@
 package com.example.chuckjokes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.widget.ImageButton;
 
-import com.example.chuckjokes.MainPresenter.MainPresenter;
 import com.example.chuckjokes.databinding.ActivityMainBinding;
-import com.example.chuckjokes.databinding.CustomToolbarBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private CustomToolbarBinding toolbarBinding;
     private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        toolbarBinding = CustomToolbarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         presenter = new MainPresenter(this);
-        presenter.init();
 
-        ImageButton menu = findViewById(R.id.menuBtn);
-        menu.setOnClickListener(v-> presenter.menuBtnClicked(v));//с биндингом не работает, поЧАМУ?
-    }
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.jokes_item:
+                    presenter.jokesItemSelected();
+                    break;
+                case R.id.browser_item:
+                    presenter.browserItemSelected();
+                    break;
+            }
+            return true;
+        });
+        binding.bottomNavigation.setSelectedItemId(R.id.jokes_item);
 
-    public void setBottomNavigationItemListener(BottomNavigationView.OnNavigationItemSelectedListener listener) {
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(listener);
-    }
-
-    public void setBottomSelectedItem(int itemID) {
-        binding.bottomNavigation.setSelectedItemId(itemID);
+        binding.toolbar.menuBtn.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, v);
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.about:
+                        presenter.onAboutClicked();
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            popup.inflate(R.menu.overflow_menu);
+            popup.show();
+        });
     }
 
     public void changeFragment(Fragment newFragment) {

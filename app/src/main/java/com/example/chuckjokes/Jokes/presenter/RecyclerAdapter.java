@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chuckjokes.Error.ErrorFragment;
+import com.example.chuckjokes.ErrorFragment;
 import com.example.chuckjokes.MainActivity;
 import com.example.chuckjokes.R;
 

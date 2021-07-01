@@ -1,6 +1,6 @@
 package com.example.chuckjokes.Jokes.presenter;
 
-import com.example.chuckjokes.Error.ErrorFragment;
+import com.example.chuckjokes.ErrorFragment;
 import com.example.chuckjokes.MainActivity;
 
 import java.lang.ref.WeakReference;

@@ -1,6 +1,5 @@
 package com.example.chuckjokes;
 
-import com.example.chuckjokes.Browser.BrowserFragment;
 import com.example.chuckjokes.Jokes.JokesFragment;
 
 public class MainPresenter {

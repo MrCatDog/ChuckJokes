@@ -1,6 +1,6 @@
 package com.example.chuckjokes;
 
-import com.example.chuckjokes.Jokes.JokesFragment;
+import com.example.chuckjokes.Jokes.wireframe.JokesFragment;
 
 public class MainPresenter {
 
@@ -11,7 +11,7 @@ public class MainPresenter {
     }
 
     public void jokesItemSelected() {
-        wireframe.changeFragment(new JokesFragment(wireframe));
+        wireframe.changeFragment(new JokesFragment());
     }
 
     public void browserItemSelected() {

@@ -1,14 +1,22 @@
 package com.example.chuckjokes.Jokes;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class JokesModel {
 
-    private int baseJokesCount = 10;
+    private JSONArray jsonArray = new JSONArray();
 
-    public int getBaseJokesCount() {
-        return baseJokesCount;
+    public int getJsonArrayLength() {
+        return jsonArray.length();
     }
 
-    public void setBaseJokesCount(int baseJokesCount) {
-        this.baseJokesCount = baseJokesCount;
+    public void putJSON(JSONObject object) {
+        jsonArray.put(object);
+    }
+
+    public JSONObject getItem(int pos) throws JSONException {
+        return jsonArray.getJSONObject(pos);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.chuckjokes.Jokes.presenter;
+package com.example.chuckjokes.Jokes.wireframe;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +17,7 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
     LinearLayoutManager linearLayoutManager;
     RecyclerAdapter recyclerAdapter;
 
-    EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, RecyclerAdapter recyclerAdapter) {
+    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, RecyclerAdapter recyclerAdapter) {
         this.linearLayoutManager = layoutManager;
         this.recyclerAdapter = recyclerAdapter;
     }

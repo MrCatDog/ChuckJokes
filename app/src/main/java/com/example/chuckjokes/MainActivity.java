@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         binding.toolbar.menuBtn.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(this, v);
             popup.setOnMenuItemClickListener(item -> {
+                //однажды тут будет ещё пара кнопок, поэтому свитч
                 switch (item.getItemId()) {
                     case R.id.about:
                         presenter.onAboutClicked();

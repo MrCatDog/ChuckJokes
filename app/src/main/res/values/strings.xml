@@ -8,4 +8,5 @@
     <string name="dialog_write">Contact me</string>
     <string name="dialog_msg" translatable="false">Lore Ipsum</string>
     <string name="dialog_header">About</string>
+    <string name="joke_id_symbol" translatable="false">#%1$d</string>
 </resources>

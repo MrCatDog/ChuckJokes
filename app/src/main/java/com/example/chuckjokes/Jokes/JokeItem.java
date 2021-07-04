@@ -2,7 +2,7 @@ package com.example.chuckjokes.Jokes;
 
 public class JokeItem {
 
-    private final Integer id;
+    private final int id;
     private final String text;
     private final String categories;
 
@@ -12,7 +12,7 @@ public class JokeItem {
         this.categories = categories;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

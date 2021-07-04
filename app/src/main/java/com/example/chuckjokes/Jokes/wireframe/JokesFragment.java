@@ -19,8 +19,6 @@ import com.example.chuckjokes.databinding.JokesFragmentBinding;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class JokesFragment extends Fragment {
 
     public static final int START_JOKES_VALUE = 15;

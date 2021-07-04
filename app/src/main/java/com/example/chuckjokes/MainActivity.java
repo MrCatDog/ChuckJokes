@@ -6,12 +6,19 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
+import com.example.chuckjokes.Jokes.wireframe.JokesFragment;
 import com.example.chuckjokes.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MainPresenter presenter;
+
+    enum fragment {
+        JOKES,
+        BROWSER,
+        ERROR
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +58,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void changeFragment(Fragment newFragment) {
+    private void changeFragment(Fragment newFragment) {
         getSupportFragmentManager().beginTransaction().replace(binding.fragmentView.getId(), newFragment).commit();
+    }
+
+    public void setJokesFragment() {
+        changeFragment(new JokesFragment());
+    }
+
+    public void setBrowserFragment() {
+        changeFragment(new BrowserFragment());
+    }
+
+    public void setErrorFragment(Exception exception) {
+        changeFragment(new ErrorFragment(exception));
     }
 
 }

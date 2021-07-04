@@ -14,12 +14,12 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
     // True if we are still waiting for the last set of data to load.
     private boolean loading = true;
 
-    LinearLayoutManager linearLayoutManager;
-    RecyclerAdapter recyclerAdapter;
+    private final LinearLayoutManager linearLayoutManager;
+    private final JokesFragment wireframe;
 
-    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, RecyclerAdapter recyclerAdapter) {
+    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, JokesFragment wireframe) {
         this.linearLayoutManager = layoutManager;
-        this.recyclerAdapter = recyclerAdapter;
+        this.wireframe = wireframe;
     }
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
@@ -55,7 +55,7 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
 
     // Defines the process for actually loading more data
     private void onLoadMore() {
-        recyclerAdapter.receiveData(15);
+        wireframe.loadMore(JokesFragment.START_JOKES_VALUE);
     }
 
 }

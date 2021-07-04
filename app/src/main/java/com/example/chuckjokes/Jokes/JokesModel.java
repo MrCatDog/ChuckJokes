@@ -1,22 +1,20 @@
 package com.example.chuckjokes.Jokes;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
 
 public class JokesModel {
 
-    private JSONArray jsonArray = new JSONArray();
+    private ArrayList<JokeItem> items = new ArrayList<>();
 
-    public int getJsonArrayLength() {
-        return jsonArray.length();
+    public int getArrayLength() {
+        return items.size();
     }
 
-    public void putJSON(JSONObject object) {
-        jsonArray.put(object);
+    public void add(JokeItem object) {
+        items.add(object);
     }
 
-    public JSONObject getItem(int pos) throws JSONException {
-        return jsonArray.getJSONObject(pos);
+    public JokeItem getItem(int pos) {
+        return items.get(pos);
     }
 }

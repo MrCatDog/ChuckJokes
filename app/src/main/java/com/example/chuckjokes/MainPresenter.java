@@ -1,7 +1,5 @@
 package com.example.chuckjokes;
 
-import com.example.chuckjokes.Jokes.wireframe.JokesFragment;
-
 public class MainPresenter {
 
     private final MainActivity wireframe;
@@ -11,11 +9,11 @@ public class MainPresenter {
     }
 
     public void jokesItemSelected() {
-        wireframe.changeFragment(new JokesFragment());
+        wireframe.setJokesFragment();
     }
 
     public void browserItemSelected() {
-        wireframe.changeFragment(new BrowserFragment());
+        wireframe.setBrowserFragment();
     }
 
     public void onAboutClicked() {

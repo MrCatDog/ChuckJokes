@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.chuckjokes.Jokes.JokeItem;
 import com.example.chuckjokes.Jokes.JokesPresenter;
 import com.example.chuckjokes.MainActivity;
 
@@ -18,12 +19,15 @@ import com.example.chuckjokes.databinding.JokesFragmentBinding;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class JokesFragment extends Fragment {
 
     public static final int START_JOKES_VALUE = 15;
 
     private final JokesPresenter presenter;
     private JokesFragmentBinding binding;
+    private RecyclerAdapter recyclerAdapter;
 
     public JokesFragment() {
         this.presenter = new JokesPresenter(this);
@@ -36,28 +40,38 @@ public class JokesFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         binding.JokesList.setLayoutManager(linearLayoutManager);
 
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(presenter);
+        recyclerAdapter = new RecyclerAdapter(this);
         binding.JokesList.setAdapter(recyclerAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.JokesList.getContext(), linearLayoutManager.getOrientation());
-        //requireNonNull? узнать подробнее.
         dividerItemDecoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_item_shape, null));
 
         binding.JokesList.addItemDecoration(dividerItemDecoration);
 
-        binding.JokesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager, recyclerAdapter));
+        binding.JokesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager, this));
 
-        recyclerAdapter.receiveData(START_JOKES_VALUE);
-        //я бы мог сделать так (в EndlessRecyclerViewScrollListener тоже)
-//        presenter.receiveData(START_JOKES_VALUE);
-//        recyclerAdapter.notifyDataSetChanged();
-        //и тогда reciveData() из адаптера исчезнет,
-        // но это в каждом новом классе тащить и адаптер и презентер, вместо одного адаптера
-
+        loadMore(START_JOKES_VALUE);
         return binding.JokesList;
     }
 
-    public void changeFragment(Fragment newFragment) {
-        ((MainActivity) requireActivity()).changeFragment(newFragment);
+    public void errorIntercepted(Exception ex) {
+        presenter.errorIntercepted(ex);
+    }
+
+    public void setErrorFragment(Exception exception) {
+        ((MainActivity) requireActivity()).setErrorFragment(exception);
+    }
+
+    public void loadMore(int count) {
+        presenter.receiveData(count);
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
+    public JokeItem getItem(int position) {
+        return presenter.getItem(position);
+    }
+
+    public int getItemCount() {
+        return presenter.getItemCount();
     }
 }

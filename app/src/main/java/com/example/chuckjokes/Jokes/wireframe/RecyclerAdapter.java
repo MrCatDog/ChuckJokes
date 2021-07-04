@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chuckjokes.Jokes.JokeItem;
 import com.example.chuckjokes.Jokes.JokesPresenter;
 import com.example.chuckjokes.R;
 
@@ -17,10 +18,6 @@ import com.example.chuckjokes.databinding.JokeItemBinding;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH> {
 
-
-    public final static String JOKE_ID_TAG = "id";
-    public final static String JOKE_CATEGORY_TAG = "categories";
-    public final static String JOKE_TEXT_TAG = "joke";
     public final static String JOKE_ID_SYMBOL = "#"; //вот это бы из ресурсов взять, но страшно представить как их сюда пробросить
 
     static class VH extends RecyclerView.ViewHolder {
@@ -33,10 +30,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH> {
         }
     }
 
-    private final JokesPresenter presenter;
+    private final JokesFragment wireframe;
 
-    public RecyclerAdapter(JokesPresenter presenter) {
-        this.presenter = presenter;
+    public RecyclerAdapter(JokesFragment wireframe) {
+        this.wireframe = wireframe;
     }
 
     @NonNull
@@ -48,36 +45,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH> {
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         try {
-            JSONObject jsonObject = presenter.getItem(position);
-            holder.binding.jokeID.setText(JOKE_ID_SYMBOL + jsonObject.getString(JOKE_ID_TAG)); //meh
-            holder.binding.categories.setText(jsonToString(jsonObject.getJSONArray(JOKE_CATEGORY_TAG)));//no foreach for JSONArray in org.json.JSONArray?
-            holder.binding.jokeText.setText(jsonObject.getString(JOKE_TEXT_TAG));
+            JokeItem item = wireframe.getItem(position);
+            holder.binding.jokeID.setText(JOKE_ID_SYMBOL + item.getId().toString()); //meh
+            holder.binding.categories.setText(item.getCategories());//no foreach for JSONArray in org.json.JSONArray?
+            holder.binding.jokeText.setText(item.getText());
         } catch (Exception ex) {
-            presenter.errorIntercepted(ex);
+            wireframe.errorIntercepted(ex);
         }
     }
 
     @Override
     public int getItemCount() {
-        return presenter.getItemCount();
-    }
-
-    //не должен ли я перенести это в презентер? этот шаг приведёт к почти к прямым обращениям к модели через презентер,
-    //что выглядит странно, хотя и более MVPшно вроде как...
-    private String jsonToString(JSONArray ja) throws org.json.JSONException {
-        if (ja.length() <= 0)
-            return "";
-        String str = ja.getString(0);
-        for (int i = 1; i < ja.length(); i++)
-            str = str.concat("," + ja.getString(i));
-        return str;
-    }
-
-    //это вызывается именно здесь так как нужен notifyDataSetChanged();
-    //правильно ли это?
-    public void receiveData(int count) {
-        presenter.receiveData(count);
-        //recyclerView.post(this::notifyDataSetChanged); это зачем было-то?
-        notifyDataSetChanged();
+        return wireframe.getItemCount();
     }
 }

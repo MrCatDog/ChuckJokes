@@ -1,5 +1,7 @@
 package com.example.chuckjokes.Jokes;
 
+import com.example.chuckjokes.Jokes.model.JokeItem;
+import com.example.chuckjokes.Jokes.model.JokesModel;
 import com.example.chuckjokes.Jokes.wireframe.JokesFragment;
 
 import org.json.JSONArray;
@@ -52,21 +54,9 @@ public class JokesPresenter {
                 model.add(new JokeItem(object.getInt(JOKE_ID_TAG), object.getString(JOKE_TEXT_TAG), jsonToString(object.getJSONArray(JOKE_CATEGORY_TAG))));
             }
         } catch (Exception ex) {
-            errorIntercepted(ex);
+            wireframe.setErrorFragment(ex);
         }
-
-    }
-
-    public int getItemCount() {
-        return model.getArrayLength();
-    }
-
-    public JokeItem getItem(int pos) {
-        return model.getItem(pos);
-    }
-
-    public void errorIntercepted(Exception ex) {
-        wireframe.setErrorFragment(ex);
+        wireframe.setData(model.getArray());
     }
 
     private String jsonToString(JSONArray ja) throws org.json.JSONException {

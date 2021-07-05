@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.chuckjokes.Jokes.JokeItem;
+import com.example.chuckjokes.Jokes.model.JokeItem;
 import com.example.chuckjokes.Jokes.JokesPresenter;
 import com.example.chuckjokes.MainActivity;
 
@@ -18,6 +18,8 @@ import com.example.chuckjokes.R;
 import com.example.chuckjokes.databinding.JokesFragmentBinding;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class JokesFragment extends Fragment {
 
@@ -52,24 +54,15 @@ public class JokesFragment extends Fragment {
         return binding.JokesList;
     }
 
-    public void errorIntercepted(Exception ex) {
-        presenter.errorIntercepted(ex);
-    }
-
     public void setErrorFragment(Exception exception) {
         ((MainActivity) requireActivity()).setErrorFragment(exception);
     }
 
     public void loadMore(int count) {
         presenter.receiveData(count);
-        recyclerAdapter.notifyDataSetChanged();
     }
 
-    public JokeItem getItem(int position) {
-        return presenter.getItem(position);
-    }
-
-    public int getItemCount() {
-        return presenter.getItemCount();
+    public void setData(ArrayList<JokeItem> arrayList) {
+        recyclerAdapter.setData(arrayList);
     }
 }

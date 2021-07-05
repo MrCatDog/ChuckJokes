@@ -1,4 +1,4 @@
-package com.example.chuckjokes.Jokes;
+package com.example.chuckjokes.Jokes.model;
 
 public class JokeItem {
 

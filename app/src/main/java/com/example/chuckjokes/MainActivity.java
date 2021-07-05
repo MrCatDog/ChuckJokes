@@ -14,12 +14,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private MainPresenter presenter;
 
-    enum fragment {
-        JOKES,
-        BROWSER,
-        ERROR
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

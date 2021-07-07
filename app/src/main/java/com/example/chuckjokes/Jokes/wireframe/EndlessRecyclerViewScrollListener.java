@@ -55,7 +55,7 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
 
     // Defines the process for actually loading more data
     private void onLoadMore() {
-        wireframe.loadMore(JokesFragment.START_JOKES_VALUE);
+        wireframe.loadMore();
     }
 
 }

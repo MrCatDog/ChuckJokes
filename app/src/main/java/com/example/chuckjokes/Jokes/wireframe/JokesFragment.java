@@ -23,8 +23,6 @@ import java.util.ArrayList;
 
 public class JokesFragment extends Fragment {
 
-    public static final int START_JOKES_VALUE = 15;
-
     private final JokesPresenter presenter;
     private JokesFragmentBinding binding;
     private RecyclerAdapter recyclerAdapter;
@@ -50,7 +48,7 @@ public class JokesFragment extends Fragment {
 
         binding.JokesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager, this));
 
-        loadMore(START_JOKES_VALUE);
+        loadMore();
         return binding.JokesList;
     }
 
@@ -58,8 +56,8 @@ public class JokesFragment extends Fragment {
         ((MainActivity) requireActivity()).setErrorFragment(exception);
     }
 
-    public void loadMore(int count) {
-        presenter.receiveData(count);
+    public void loadMore() {
+        presenter.receiveData();
     }
 
     public void setData(ArrayList<JokeItem> arrayList) {

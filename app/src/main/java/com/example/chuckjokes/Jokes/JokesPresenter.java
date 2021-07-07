@@ -17,6 +17,7 @@ import okhttp3.Response;
 
 public class JokesPresenter {
 
+    public static final int JOKES_VALUE = 15;
     public final static String BASE_URL = "http://api.icndb.com/jokes/random/";
     public final static String ESCAPE_JS = "?escape=javascript"; //for correct form of quotes(non &quot;)
     public final static String ANSWER_TAG = "value";
@@ -34,9 +35,9 @@ public class JokesPresenter {
         this.model = new JokesModel();
     }
 
-    public void receiveData(int count) {
+    public void receiveData() {
         FutureTask<String> future = new FutureTask<>(() -> {
-            Request request = new Request.Builder().url(BASE_URL + count + ESCAPE_JS).build();
+            Request request = new Request.Builder().url(BASE_URL + JOKES_VALUE + ESCAPE_JS).build();
             try (Response response = client.newCall(request).execute()) {
                 if (response.isSuccessful()) {
                     return response.body().string();
@@ -49,14 +50,14 @@ public class JokesPresenter {
             executor.submit(future);
             JSONArray answer = new JSONObject(future.get()).getJSONArray(ANSWER_TAG);
             JSONObject object;
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < JOKES_VALUE; i++) {
                 object = answer.getJSONObject(i);
                 model.add(new JokeItem(object.getInt(JOKE_ID_TAG), object.getString(JOKE_TEXT_TAG), jsonToString(object.getJSONArray(JOKE_CATEGORY_TAG))));
             }
+            wireframe.setData(model.getItems());
         } catch (Exception ex) {
             wireframe.setErrorFragment(ex);
         }
-        wireframe.setData(model.getArray());
     }
 
     private String jsonToString(JSONArray ja) throws org.json.JSONException {

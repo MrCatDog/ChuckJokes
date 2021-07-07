@@ -10,7 +10,7 @@ public class JokesModel {
         items.add(object);
     }
 
-    public ArrayList<JokeItem> getArray() {
+    public ArrayList<JokeItem> getItems() {
         return items;
     }
 }

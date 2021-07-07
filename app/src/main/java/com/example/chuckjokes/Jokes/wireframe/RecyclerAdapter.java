@@ -13,6 +13,7 @@ import com.example.chuckjokes.R;
 import com.example.chuckjokes.databinding.JokeItemBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH> {
 
@@ -27,7 +28,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH> {
     }
 
     private final JokesFragment wireframe;
-    private ArrayList<JokeItem> items;
+    private List<JokeItem> items = new ArrayList<>();
 
     public RecyclerAdapter(JokesFragment wireframe) {
         this.wireframe = wireframe;
@@ -52,8 +53,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.VH> {
         return items.size();
     }
 
-    public void setData(ArrayList<JokeItem> arrayList) {
-        this.items = arrayList;
+    public void setData(List<JokeItem> items) {
+        this.items = items;
         notifyDataSetChanged();
     }
 }

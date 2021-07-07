@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-        binding.bottomNavigation.setSelectedItemId(R.id.jokes_item);
 
         binding.toolbar.menuBtn.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(this, v);
@@ -66,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setErrorFragment(Exception exception) {
         changeFragment(new ErrorFragment(exception));
+    }
+
+    public void setSelectedNavItem(int id) {
+        binding.bottomNavigation.setSelectedItemId(id);
     }
 
 }

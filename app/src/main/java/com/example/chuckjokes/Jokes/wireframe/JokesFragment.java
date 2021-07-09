@@ -4,6 +4,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class JokesFragment extends Fragment {
+
+    private static final int VISIBLE_THRESHOLD = 5;
 
     private final JokesPresenter presenter;
     private JokesFragmentBinding binding;
@@ -46,18 +49,21 @@ public class JokesFragment extends Fragment {
 
         binding.JokesList.addItemDecoration(dividerItemDecoration);
 
-        binding.JokesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager, this));
+        binding.JokesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NotNull RecyclerView unused, int dx, int dy) {
+                if (linearLayoutManager.findLastVisibleItemPosition() + VISIBLE_THRESHOLD > linearLayoutManager.getItemCount()) {
+                    presenter.onScrolledToEnd();
+                }
+            }
+        });
 
-        loadMore();
+        presenter.onScrolledToEnd();
         return binding.JokesList;
     }
 
     public void setErrorFragment(Exception exception) {
         ((MainActivity) requireActivity()).setErrorFragment(exception);
-    }
-
-    public void loadMore() {
-        presenter.receiveData();
     }
 
     public void setData(ArrayList<JokeItem> arrayList) {

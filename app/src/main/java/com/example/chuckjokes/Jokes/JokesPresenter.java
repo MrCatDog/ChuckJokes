@@ -35,7 +35,12 @@ public class JokesPresenter {
         this.model = new JokesModel();
     }
 
-    public void receiveData() {
+    public void onScrolledToEnd() {
+        if (model.isLoading()) {
+            return;
+        }
+        model.setLoading(true);
+
         FutureTask<String> future = new FutureTask<>(() -> {
             Request request = new Request.Builder().url(BASE_URL + JOKES_VALUE + ESCAPE_JS).build();
             try (Response response = client.newCall(request).execute()) {
@@ -58,6 +63,7 @@ public class JokesPresenter {
         } catch (Exception ex) {
             wireframe.setErrorFragment(ex);
         }
+        model.setLoading(false);
     }
 
     private String jsonToString(JSONArray ja) throws org.json.JSONException {

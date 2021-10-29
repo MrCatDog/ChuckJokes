@@ -63,14 +63,14 @@ class MainActivity : AppCompatActivity() {
 
     fun setBrowserFragment() {
         changeFragment(BrowserFragment())
-        setSelectedNavItem(R.id.jokes_item)
+        setSelectedNavItem(R.id.browser_item)
     }
 
     fun setErrorFragment(exception: Exception?) {
         changeFragment(ErrorFragment(exception))
     }
 
-    fun setSelectedNavItem(id: Int) {
+    private fun setSelectedNavItem(id: Int) {
         binding.bottomNavigation.selectedItemId = id
     }
 }

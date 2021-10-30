@@ -15,7 +15,7 @@ class RecyclerAdapter(private val wireframe: JokesFragment) : RecyclerView.Adapt
 
     }
 
-    private var items: List<JokeItem> = ArrayList()
+    private var items: List<JokesModel.JokeItem> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(LayoutInflater.from(parent.context).inflate(R.layout.joke_item, parent, false))
     }
@@ -31,7 +31,7 @@ class RecyclerAdapter(private val wireframe: JokesFragment) : RecyclerView.Adapt
         return items.size
     }
 
-    fun setData(items: List<JokeItem>) {
+    fun setData(items: List<JokesModel.JokeItem>) {
         this.items = items
         notifyDataSetChanged()
     }

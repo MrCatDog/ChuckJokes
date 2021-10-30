@@ -58,7 +58,7 @@ class JokesViewModel: ViewModel() {
             var `object`: JSONObject
             for (i in 0 until JOKES_VALUE) {
                 `object` = answer.getJSONObject(i)
-                model.add(JokesModel.JokeItem(`object`.getInt(JOKE_ID_TAG), `object`.getString(JOKE_TEXT_TAG), jsonToString(`object`.getJSONArray(JOKE_CATEGORY_TAG))!!))
+                model.add(JokesModel.JokeItem(`object`.getInt(JOKE_ID_TAG), `object`.getString(JOKE_TEXT_TAG), jsonToString(`object`.getJSONArray(JOKE_CATEGORY_TAG))))
             }
             _data.value = model.items
         } catch (ex: Exception) {
@@ -68,10 +68,13 @@ class JokesViewModel: ViewModel() {
     }
 
     @Throws(JSONException::class)
-    private fun jsonToString(ja: JSONArray): String? {
-        if (ja.length() <= 0) return ""
-        var str = ja.getString(0)
-        for (i in 1 until ja.length()) str = str + "," + ja.getString(i)
+    private fun jsonToString(ja: JSONArray): String {
+        if (ja.length() <= 0)
+            return ""
+        var str = ja.getString(0) // TODO: проверить что это исключение не возникает или нормально его обработать. Может использовать try как выражение? В какой ситуации там вообще может оказаться отсутствие значения? а если там JSONObject#NULL ?
+        for (i in 1 until ja.length()) {
+            str = str + "," + ja.getString(i)
+        }
         return str
     }
 }

@@ -12,6 +12,10 @@ class MainViewModel: ViewModel() {
     val selectedNavItemId : LiveData<Int>
         get() = _selectedNavItemId
 
+    init {
+        jokesItemSelected()
+    }
+
     fun onNavigationItemItemSelected(itemId : Int): Boolean {
         when(itemId) {
             R.id.jokes_item -> jokesItemSelected()
@@ -34,11 +38,6 @@ class MainViewModel: ViewModel() {
     }
 
     fun onAboutClicked() {
-        // TODO
+        // TODO: future task, show dialog about program and developer info for hire.
     }
-
-    init {
-        jokesItemSelected()
-    }
-
 }

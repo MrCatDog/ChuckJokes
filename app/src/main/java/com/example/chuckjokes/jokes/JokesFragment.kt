@@ -17,7 +17,7 @@ import com.example.chuckjokes.viewModelsExt
 class JokesFragment : Fragment() {
 
     private lateinit var binding: JokesFragmentBinding
-    private var recyclerAdapter: RecyclerAdapter? = null
+    private lateinit var recyclerAdapter: RecyclerAdapter
 
     private val viewModel by viewModelsExt {
         JokesViewModel()
@@ -44,7 +44,7 @@ class JokesFragment : Fragment() {
         })
 
         viewModel.data.observe(viewLifecycleOwner) {
-            recyclerAdapter!!.setData(it)
+            recyclerAdapter.setData(it)
         }
 
         viewModel.exception.observe(viewLifecycleOwner) {

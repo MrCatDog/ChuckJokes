@@ -27,10 +27,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item: MenuItem -> viewModel.onNavigationItemItemSelected(item.itemId) }
+        binding.bottomNavigation.setOnItemSelectedListener { item: MenuItem -> viewModel.onNavigationItemItemSelected(item.itemId) }
 
-        binding.toolbar.menuBtn.setOnClickListener { v: View? ->
-            val popup = PopupMenu(this, v!!)
+        binding.toolbar.menuBtn.setOnClickListener { v: View ->
+            val popup = PopupMenu(this, v)
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.about -> {

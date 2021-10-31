@@ -42,7 +42,7 @@ class JokesViewModel: ViewModel() {
             return
         }
         model.isLoading = true
-        val future = FutureTask(Callable<String?> {
+        val future = FutureTask(Callable<String> {
             val request: Request = Request.Builder().url(BASE_URL + JOKES_VALUE + ESCAPE_JS).build()
             client.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
@@ -58,7 +58,7 @@ class JokesViewModel: ViewModel() {
             var `object`: JSONObject
             for (i in 0 until JOKES_VALUE) {
                 `object` = answer.getJSONObject(i)
-                model.add(JokesModel.JokeItem(`object`.getInt(JOKE_ID_TAG), `object`.getString(JOKE_TEXT_TAG), jsonToString(`object`.getJSONArray(JOKE_CATEGORY_TAG))))
+                model.items.add(JokesModel.JokeItem(`object`.getInt(JOKE_ID_TAG), `object`.getString(JOKE_TEXT_TAG), jsonToString(`object`.getJSONArray(JOKE_CATEGORY_TAG))))
             }
             _data.value = model.items
         } catch (ex: Exception) {

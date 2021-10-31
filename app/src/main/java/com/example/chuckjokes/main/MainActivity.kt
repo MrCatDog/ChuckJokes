@@ -7,12 +7,11 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import com.example.chuckjokes.BrowserFragment
-import com.example.chuckjokes.ErrorFragment
+import com.example.chuckjokes.error.ErrorFragment
 import com.example.chuckjokes.jokes.JokesFragment
 import com.example.chuckjokes.R
 import com.example.chuckjokes.databinding.ActivityMainBinding
 import com.example.chuckjokes.viewModelsExt
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         setSelectedNavItem(R.id.browser_item)
     }
 
-    fun setErrorFragment(exception: Exception?) {
+    fun setErrorFragment(exception: Exception) {
         changeFragment(ErrorFragment(exception))
     }
 

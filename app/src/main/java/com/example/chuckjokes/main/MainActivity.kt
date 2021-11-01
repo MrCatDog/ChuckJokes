@@ -6,7 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import com.example.chuckjokes.BrowserFragment
+import com.example.chuckjokes.browser.BrowserFragment
 import com.example.chuckjokes.error.ErrorFragment
 import com.example.chuckjokes.jokes.JokesFragment
 import com.example.chuckjokes.R

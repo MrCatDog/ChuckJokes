@@ -27,10 +27,10 @@ class JokesViewModel: ViewModel() {
     private val executor = Executors.newSingleThreadExecutor()
     private val client = OkHttpClient()
 
-    private val _data = MutableLiveData<List<JokesModel.JokeItem>>()
+    private val _jokes = MutableLiveData<List<JokesModel.JokeItem>>()
 
-    val data: LiveData<List<JokesModel.JokeItem>>
-        get() = _data
+    val jokes: LiveData<List<JokesModel.JokeItem>>
+        get() = _jokes
 
     private val _exception = MutableLiveData<Exception>()
 
@@ -60,7 +60,7 @@ class JokesViewModel: ViewModel() {
                 `object` = answer.getJSONObject(i)
                 model.items.add(JokesModel.JokeItem(`object`.getInt(JOKE_ID_TAG), `object`.getString(JOKE_TEXT_TAG), jsonToString(`object`.getJSONArray(JOKE_CATEGORY_TAG))))
             }
-            _data.value = model.items
+            _jokes.value = model.items
         } catch (ex: Exception) {
             _exception.value = ex
         }

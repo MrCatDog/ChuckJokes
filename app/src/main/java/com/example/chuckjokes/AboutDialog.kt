@@ -1,24 +1,21 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes
 
-import android.app.Dialog;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.app.Dialog
+import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-
-public class AboutDialog extends DialogFragment {
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+class AboutDialog : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(
+            requireActivity()
+        )
         // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        val inflater = requireActivity().layoutInflater
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.custom_dialog, null));
-        return builder.create();
+        builder.setView(inflater.inflate(R.layout.custom_dialog, null))
+        return builder.create()
     }
 }

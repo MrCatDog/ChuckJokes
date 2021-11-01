@@ -1,68 +1,45 @@
-package com.example.chuckjokes;
+package com.example.chuckjokes.browser
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.example.chuckjokes.databinding.BrowserFragmentBinding
+import com.example.chuckjokes.viewModelsExt
 
-import androidx.fragment.app.Fragment;
+class BrowserFragment : Fragment() {
 
-import com.example.chuckjokes.databinding.BrowserFragmentBinding;
+    private lateinit var binding: BrowserFragmentBinding
 
-import org.jetbrains.annotations.NotNull;
+    private val viewModel by viewModelsExt {
+        BrowserViewModel()
+    }
 
-public class BrowserFragment extends Fragment {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = BrowserFragmentBinding.inflate(inflater)
 
-    public static final boolean LOAD_WITH_OVERVIEW_MODE = true;
-    public static final boolean USE_WIDE_VIEWPORT = true;
-    public static final boolean BUILT_IN_ZOOM_CONTROLS = true;
-    public static final boolean DISPLAY_ZOOM_CONTROLS = false;
-    public static final boolean JAVA_SCRIPT_ENABLED = true;
-    public static final int MAX_PROGRESS = 100;
+        binding.browser.webViewClient = viewModel.getWebViewClient()
 
-    public static final String DEFAULT_URL = "http://www.icndb.com/api/";
+        binding.browser.webChromeClient = viewModel.getWebChromeClient()
 
-    private BrowserFragmentBinding binding;
+        viewModel.progress.observe(viewLifecycleOwner) {
+            binding.progressBar.progress = it
+        }
 
-    @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        viewModel.visibility.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = it
+        }
 
-        binding = BrowserFragmentBinding.inflate(inflater);
+        viewModel.modifyWebSettings(binding.browser.settings)
 
-        binding.browser.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        viewModel.url.observe(viewLifecycleOwner) {
+            binding.browser.loadUrl(it)
+        }
 
-        binding.browser.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView wv, int progress) {
-                binding.progressBar.setProgress(progress);
-                if (progress == MAX_PROGRESS) {
-                    binding.progressBar.setVisibility(View.GONE);
-                } else {
-                    binding.progressBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        WebSettings settings = binding.browser.getSettings();
-        settings.setLoadWithOverviewMode(LOAD_WITH_OVERVIEW_MODE);
-        settings.setUseWideViewPort(USE_WIDE_VIEWPORT);
-        settings.setBuiltInZoomControls(BUILT_IN_ZOOM_CONTROLS);
-        settings.setDisplayZoomControls(DISPLAY_ZOOM_CONTROLS);
-        settings.setJavaScriptEnabled(JAVA_SCRIPT_ENABLED);
-
-        binding.browser.loadUrl(DEFAULT_URL);
-
-        return binding.getRoot();
+        return binding.root
     }
 }

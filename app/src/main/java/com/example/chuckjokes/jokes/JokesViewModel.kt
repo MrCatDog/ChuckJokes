@@ -42,6 +42,7 @@ class JokesViewModel : ViewModel() {
             return
         }
         model.isLoading = true
+
         val future = FutureTask(Callable<String> {
             val request: Request = Request.Builder().url(
                 JokesConstants.BASE_URL +
@@ -78,15 +79,14 @@ class JokesViewModel : ViewModel() {
         model.isLoading = false
     }
 
-    @Throws(JSONException::class)
-    private fun jsonToString(ja: JSONArray): String {
-        if (ja.length() <= 0)
-            return ""
-        var str =
-            ja.getString(0) // TODO: проверить что это исключение не возникает или нормально его обработать. Может использовать try как выражение? В какой ситуации там вообще может оказаться отсутствие значения? а если там JSONObject#NULL ?
+    private fun jsonToString(ja: JSONArray) = try {
+        var str = ja.getString(0)
+        // TODO: ja.join(",") - вот если бы эта фигня возвращала ответ без идиотских кавычек
         for (i in 1 until ja.length()) {
             str = str + "," + ja.getString(i)
         }
-        return str
+        str
+    } catch (ex: Exception) {
+        ""
     }
 }

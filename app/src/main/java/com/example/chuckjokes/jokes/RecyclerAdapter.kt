@@ -10,11 +10,13 @@ import com.example.chuckjokes.databinding.JokeItemBinding
 import java.util.ArrayList
 
 class RecyclerAdapter(private val wireframe: JokesFragment) : RecyclerView.Adapter<VH>() {
+
     class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: JokeItemBinding = JokeItemBinding.bind(itemView)
     }
 
     private var items: List<JokesModel.JokeItem> = ArrayList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(LayoutInflater.from(parent.context).inflate(R.layout.joke_item, parent, false))
     }
@@ -30,9 +32,8 @@ class RecyclerAdapter(private val wireframe: JokesFragment) : RecyclerView.Adapt
         return items.size
     }
 
-    fun setData(items: List<JokesModel.JokeItem>) {
+    fun setData(items: List<JokesModel.JokeItem>, itemCount: Int) {
         this.items = items
-        notifyDataSetChanged()
-        // TODO: проверить этот варнинг. Не переделать ли это в ArrayList чтобы, указать, что не все эелементы обновились, а только некоторые. Ну и обновлять не весь лист, а часть.
+        notifyItemRangeInserted(items.lastIndex, itemCount)
     }
 }

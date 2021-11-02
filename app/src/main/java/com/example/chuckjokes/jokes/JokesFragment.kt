@@ -14,6 +14,8 @@ import com.example.chuckjokes.databinding.JokesFragmentBinding
 import com.example.chuckjokes.main.MainActivity
 import com.example.chuckjokes.viewModelsExt
 
+private const val VISIBLE_THRESHOLD = 5
+
 class JokesFragment : Fragment() {
 
     private lateinit var binding: JokesFragmentBinding
@@ -44,7 +46,7 @@ class JokesFragment : Fragment() {
         })
 
         viewModel.jokes.observe(viewLifecycleOwner) {
-            recyclerAdapter.setData(it)
+            recyclerAdapter.setData(it, JokesConstants.JOKES_VALUE)
         }
 
         viewModel.exception.observe(viewLifecycleOwner) {
@@ -55,9 +57,4 @@ class JokesFragment : Fragment() {
 
         return binding.JokesList
     }
-
-    companion object {
-        private const val VISIBLE_THRESHOLD = 5
-    }
-
 }

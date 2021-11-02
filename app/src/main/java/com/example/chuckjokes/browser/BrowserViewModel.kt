@@ -9,18 +9,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+const val MAX_PROGRESS = 100
+const val DEFAULT_URL = "http://www.icndb.com/api/"
+
+const val LOAD_WITH_OVERVIEW_MODE = true
+const val USE_WIDE_VIEWPORT = true
+const val BUILT_IN_ZOOM_CONTROLS = true
+const val DISPLAY_ZOOM_CONTROLS = false
+const val JAVA_SCRIPT_ENABLED = true
+
 class BrowserViewModel : ViewModel() {
-
-    companion object {
-        const val MAX_PROGRESS = 100
-        const val DEFAULT_URL = "http://www.icndb.com/api/"
-
-        const val LOAD_WITH_OVERVIEW_MODE = true
-        const val USE_WIDE_VIEWPORT = true
-        const val BUILT_IN_ZOOM_CONTROLS = true
-        const val DISPLAY_ZOOM_CONTROLS = false
-        const val JAVA_SCRIPT_ENABLED = true
-    }
 
     private val _progress = MutableLiveData<Int>()
 

@@ -29,12 +29,17 @@ class ErrorFragment(private val error: Exception) : Fragment() {
 
         binding.errorBaseInfo.text = error.localizedMessage
         binding.moreAboutError.text = sw.toString()
-        binding.moreAboutError.visibility = View.GONE
 
-        binding.moreAboutErrorBut.setOnClickListener {viewModel.moreAboutErrorClicked()}
+        binding.moreAboutErrorBut.setOnClickListener {
+            viewModel.moreAboutErrorClicked()
+        }
 
-        viewModel.selectedNavItemId.observe(viewLifecycleOwner) {
-            binding.moreAboutError.visibility = it
+        viewModel.additionalInfoVisibility.observe(viewLifecycleOwner) {
+            if(it) {
+                binding.moreAboutError.visibility = View.VISIBLE
+            } else {
+                binding.moreAboutError.visibility = View.GONE
+            }
         }
 
         return binding.root

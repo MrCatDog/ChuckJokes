@@ -39,6 +39,7 @@ class JokesFragment : Fragment() {
 
         binding.JokesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(unused: RecyclerView, dx: Int, dy: Int) {
+                //вот это явно логика, но как её убрать отсюда? этот объект будет требовать постоянного проброса значений с linearLayoutManager
                 if (linearLayoutManager.findLastVisibleItemPosition() + VISIBLE_THRESHOLD > linearLayoutManager.itemCount) {
                     viewModel.onScrolledToEnd()
                 }

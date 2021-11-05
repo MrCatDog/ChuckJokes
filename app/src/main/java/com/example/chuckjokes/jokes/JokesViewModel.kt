@@ -1,12 +1,12 @@
 package com.example.chuckjokes.jokes
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
@@ -36,6 +36,10 @@ class JokesViewModel : ViewModel() {
     private val _exception = MutableLiveData<Exception>()
     val exception: LiveData<Exception>
         get() = _exception
+
+    private val _exceptionBundle = MutableLiveData<Bundle>()
+    val exceptionBundle: LiveData<Bundle>
+        get() = _exceptionBundle
 
     fun onScrolledToEnd() {
         if (model.isLoading) {
@@ -81,7 +85,6 @@ class JokesViewModel : ViewModel() {
 
     private fun jsonToString(ja: JSONArray) = try {
         var str = ja.getString(0)
-        // TODO: ja.join(",") - вот если бы эта фигня возвращала ответ без идиотских кавычек
         for (i in 1 until ja.length()) {
             str = str + "," + ja.getString(i)
         }

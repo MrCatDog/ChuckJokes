@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chuckjokes.R
+import com.example.chuckjokes.Shared
+import com.example.chuckjokes.Shared.Direction.*
+
 
 class MainViewModel: ViewModel() {
 
-    private val _selectedNavItemId = MutableLiveData<Int>()
+    private val _selectedNavItemId = MutableLiveData<Shared.Direction>()
 
-    val selectedNavItemId : LiveData<Int>
+    val selectedNavItemId : LiveData<Shared.Direction>
         get() = _selectedNavItemId
 
     init {
@@ -26,14 +29,14 @@ class MainViewModel: ViewModel() {
     }
 
     private fun jokesItemSelected() {
-        if (_selectedNavItemId.value != R.id.jokes_item) {
-            _selectedNavItemId.value = R.id.jokes_item
+        if (_selectedNavItemId.value != JOKES) {
+            _selectedNavItemId.value = JOKES
         }
     }
 
     private fun browserItemSelected() {
-        if (_selectedNavItemId.value != R.id.browser_item) {
-            _selectedNavItemId.value = R.id.browser_item
+        if (_selectedNavItemId.value != BROWSER) {
+            _selectedNavItemId.value = BROWSER
         }
     }
 

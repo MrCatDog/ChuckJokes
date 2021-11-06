@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.chuckjokes.R
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chuckjokes.Shared
 import com.example.chuckjokes.databinding.JokesFragmentBinding
 import com.example.chuckjokes.main.MainActivity
 import com.example.chuckjokes.viewModelsExt
@@ -51,7 +52,7 @@ class JokesFragment : Fragment() {
         }
 
         viewModel.exceptionBundle.observe(viewLifecycleOwner) {
-            (requireActivity() as MainActivity).setErrorFragment(it)
+            (requireActivity() as MainActivity).changeFragmentByDirection(Shared.Direction.ERROR, it)
         }
 
         viewModel.onScrolledToEnd()

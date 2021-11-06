@@ -4,14 +4,18 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chuckjokes.Shared
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.FutureTask
 
+//TODO а не вынести ли это в Shared?
 object JokesConstants {
     const val JOKES_VALUE = 15
     const val BASE_URL = "http://api.icndb.com/jokes/random/"
@@ -32,10 +36,6 @@ class JokesViewModel : ViewModel() {
     private val _jokes = MutableLiveData<List<JokesModel.JokeItem>>()
     val jokes: LiveData<List<JokesModel.JokeItem>>
         get() = _jokes
-
-    private val _exception = MutableLiveData<Exception>()
-    val exception: LiveData<Exception>
-        get() = _exception
 
     private val _exceptionBundle = MutableLiveData<Bundle>()
     val exceptionBundle: LiveData<Bundle>
@@ -78,7 +78,9 @@ class JokesViewModel : ViewModel() {
             }
             _jokes.value = model.items
         } catch (ex: Exception) {
-            _exception.value = ex
+            val args = Bundle()
+            args.putSerializable(Shared.ERROR_EXCEPTION_TAG, ex)
+            _exceptionBundle.value = args
         }
         model.isLoading = false
     }

@@ -50,7 +50,7 @@ class JokesFragment : Fragment() {
             recyclerAdapter.setData(it, JokesConstants.JOKES_VALUE)
         }
 
-        viewModel.exception.observe(viewLifecycleOwner) {
+        viewModel.exceptionBundle.observe(viewLifecycleOwner) {
             (requireActivity() as MainActivity).setErrorFragment(it)
         }
 

@@ -7,4 +7,5 @@
     <string name="dialog_close">Закрыть</string>
     <string name="dialog_write">Написать</string>
     <string name="dialog_header">О программе</string>
+    <string name="unknown_error_msg">Неизвестная ошибка</string>
 </resources>

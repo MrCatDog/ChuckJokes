@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.chuckjokes.R
+import com.example.chuckjokes.Shared
 import com.example.chuckjokes.databinding.ErrorFragmentBinding
 import com.example.chuckjokes.viewModelsExt
-import java.io.PrintWriter
-import java.io.StringWriter
 
-class ErrorFragment(private val error: Exception) : Fragment() {
+class ErrorFragment : Fragment() {
 
     private lateinit var binding: ErrorFragmentBinding
 
@@ -22,13 +22,6 @@ class ErrorFragment(private val error: Exception) : Fragment() {
                               savedInstanceState: Bundle?): View {
 
         binding = ErrorFragmentBinding.inflate(inflater)
-
-        val sw = StringWriter()
-        val pw = PrintWriter(sw)
-        error.printStackTrace(pw)
-
-        binding.errorBaseInfo.text = error.localizedMessage
-        binding.moreAboutError.text = sw.toString()
 
         binding.moreAboutErrorBut.setOnClickListener {
             viewModel.moreAboutErrorClicked()
@@ -42,6 +35,24 @@ class ErrorFragment(private val error: Exception) : Fragment() {
             }
         }
 
+        viewModel.errorBaseInfoText.observe(viewLifecycleOwner) {
+            binding.errorBaseInfo.text = it
+        }
+
+        viewModel.moreAboutErrorText.observe(viewLifecycleOwner) {
+            binding.moreAboutError.text = it
+        }
+
+        viewModel.setArguments(requireArguments()) // TODO: Разобраться с исключениями котлина: ну оно же может тут возникнуть, верно? почему я его не обрабатываю?
+
         return binding.root
+    }
+
+    companion object ErrorFragmentFactory {
+        fun newInstance(args: Bundle): ErrorFragment {
+            val myFragment = ErrorFragment()
+            myFragment.arguments = args
+            return myFragment
+        }
     }
 }

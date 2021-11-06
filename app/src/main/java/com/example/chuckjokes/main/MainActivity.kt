@@ -11,6 +11,7 @@ import com.example.chuckjokes.error.ErrorFragment
 import com.example.chuckjokes.jokes.JokesFragment
 import com.example.chuckjokes.R
 import com.example.chuckjokes.databinding.ActivityMainBinding
+import com.example.chuckjokes.databinding.ErrorFragmentBinding
 import com.example.chuckjokes.viewModelsExt
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(binding.fragmentView.id, newFragment).commit()
     }
 
+
+    //TODO объеденить эти методы, передавая внутрь Bundle? , если bundle != null, то делать myFragment.arguments = args или как-то так
     fun setJokesFragment() {
         changeFragment(JokesFragment())
         setSelectedNavItem(R.id.jokes_item)
@@ -65,8 +68,9 @@ class MainActivity : AppCompatActivity() {
         setSelectedNavItem(R.id.browser_item)
     }
 
-    fun setErrorFragment(exception: Exception) {
-        changeFragment(ErrorFragment(exception))
+    fun setErrorFragment(args: Bundle) {
+        val errorFragment = ErrorFragment.newInstance(args)
+        changeFragment(errorFragment)
     }
 
     private fun setSelectedNavItem(id: Int) {

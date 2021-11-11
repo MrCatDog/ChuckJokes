@@ -9,14 +9,14 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.PrintWriter
-import java.io.StringWriter
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.FutureTask
 
 //TODO а не вынести ли это в Shared?
 object JokesConstants {
+    const val VISIBLE_THRESHOLD = 5
+
     const val JOKES_VALUE = 15
     const val BASE_URL = "http://api.icndb.com/jokes/random/"
     const val ESCAPE_JS = "?escape=javascript" //for correct form of quotes(non &quot;)
@@ -41,8 +41,12 @@ class JokesViewModel : ViewModel() {
     val exceptionBundle: LiveData<Bundle>
         get() = _exceptionBundle
 
-    fun onScrolledToEnd() {
-        if (model.isLoading) {
+    init {
+        onScrolledToEnd()
+    }
+
+    fun onScrolledToEnd(lastVisibleItemPosition: Int = 0, itemCount: Int = 0) {
+        if (model.isLoading || lastVisibleItemPosition + JokesConstants.VISIBLE_THRESHOLD <= itemCount) {
             return
         }
         model.isLoading = true
@@ -59,7 +63,7 @@ class JokesViewModel : ViewModel() {
                     return@Callable response.body?.string()
                 }
             }
-            null
+            ""
         })
 
         try {

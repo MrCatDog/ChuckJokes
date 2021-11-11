@@ -9,7 +9,7 @@ import com.example.chuckjokes.R
 import com.example.chuckjokes.databinding.JokeItemBinding
 import java.util.ArrayList
 
-class RecyclerAdapter(private val wireframe: JokesFragment) : RecyclerView.Adapter<VH>() {
+class RecyclerAdapter : RecyclerView.Adapter<VH>() {
 
     class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: JokeItemBinding = JokeItemBinding.bind(itemView)
@@ -23,7 +23,7 @@ class RecyclerAdapter(private val wireframe: JokesFragment) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item = items[position]
-        holder.binding.jokeID.text = wireframe.resources.getString(R.string.joke_id_symbol, item.id)
+        holder.binding.jokeID.text = holder.itemView.resources.getString(R.string.joke_id_symbol, item.id)
         holder.binding.categories.text = item.categories
         holder.binding.jokeText.text = item.text
     }

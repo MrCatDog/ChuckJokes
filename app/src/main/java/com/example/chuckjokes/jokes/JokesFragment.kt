@@ -14,9 +14,6 @@ import com.example.chuckjokes.Shared
 import com.example.chuckjokes.databinding.JokesFragmentBinding
 import com.example.chuckjokes.main.MainActivity
 import com.example.chuckjokes.viewModelsExt
-
-private const val VISIBLE_THRESHOLD = 5
-
 class JokesFragment : Fragment() {
 
     private lateinit var binding: JokesFragmentBinding
@@ -31,7 +28,7 @@ class JokesFragment : Fragment() {
         binding = JokesFragmentBinding.inflate(inflater)
         val linearLayoutManager = LinearLayoutManager(context)
         binding.JokesList.layoutManager = linearLayoutManager
-        recyclerAdapter = RecyclerAdapter(this)
+        recyclerAdapter = RecyclerAdapter()
         binding.JokesList.adapter = recyclerAdapter
 
         val dividerItemDecoration = DividerItemDecoration(binding.JokesList.context, linearLayoutManager.orientation)
@@ -40,10 +37,7 @@ class JokesFragment : Fragment() {
 
         binding.JokesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(unused: RecyclerView, dx: Int, dy: Int) {
-                //вот это явно логика, но как её убрать отсюда? этот объект будет требовать постоянного проброса значений с linearLayoutManager
-                if (linearLayoutManager.findLastVisibleItemPosition() + VISIBLE_THRESHOLD > linearLayoutManager.itemCount) {
-                    viewModel.onScrolledToEnd()
-                }
+                viewModel.onScrolledToEnd(linearLayoutManager.findLastVisibleItemPosition(), linearLayoutManager.itemCount)
             }
         })
 
@@ -54,8 +48,6 @@ class JokesFragment : Fragment() {
         viewModel.exceptionBundle.observe(viewLifecycleOwner) {
             (requireActivity() as MainActivity).changeFragmentByDirection(Shared.Direction.ERROR, it)
         }
-
-        viewModel.onScrolledToEnd()
 
         return binding.JokesList
     }

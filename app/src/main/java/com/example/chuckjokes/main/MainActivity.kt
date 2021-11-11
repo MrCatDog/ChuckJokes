@@ -29,9 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomNavigation.setOnItemSelectedListener { item: MenuItem ->
-            viewModel.onNavigationItemItemSelected(
-                item.itemId
-            )
+            viewModel.onNavigationItemItemSelected(item.itemId)
         }
 
         binding.toolbar.menuBtn.setOnClickListener { v: View ->
@@ -55,7 +53,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeFragment(newFragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(binding.fragmentView.id, newFragment)
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentView.id, newFragment)
             .commit()
     }
 

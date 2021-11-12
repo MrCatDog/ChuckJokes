@@ -39,11 +39,11 @@ class JokesViewModel : ViewModel() {
         get() = _exception
 
     init {
-        onScrolledToEnd()
+        downloadMore()
     }
 
-    fun onScrolledToEnd(lastVisibleItemPosition: Int = 0, itemCount: Int = 0) {
-        if (model.isLoading || lastVisibleItemPosition + JokesConstants.VISIBLE_THRESHOLD <= itemCount) {
+    private fun downloadMore() {
+        if (model.isLoading) {
             return
         }
         model.isLoading = true
@@ -82,6 +82,12 @@ class JokesViewModel : ViewModel() {
             _exception.value = ex
         }
         model.isLoading = false
+    }
+
+    fun onScrolledToEnd(lastVisibleItemPosition: Int, itemCount: Int) {
+        if (lastVisibleItemPosition + JokesConstants.VISIBLE_THRESHOLD > itemCount) {
+            downloadMore()
+        }
     }
 
     private fun jsonToString(ja: JSONArray) = try {

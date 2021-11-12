@@ -1,15 +1,13 @@
 package com.example.chuckjokes.error
 
-import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.chuckjokes.Shared
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.lang.Exception
+import kotlin.Exception
 
-class ErrorViewModel : ViewModel() {
+class ErrorViewModel(ex : Exception) : ViewModel() {
 
     private val _additionalInfoVisibility = MutableLiveData<Boolean>()
     val additionalInfoVisibility : LiveData<Boolean>
@@ -25,18 +23,14 @@ class ErrorViewModel : ViewModel() {
 
     init {
         _additionalInfoVisibility.value = false
+
+        val sw = StringWriter()
+        ex.printStackTrace(PrintWriter(sw))
+        _errorBaseInfoText.value = ex.localizedMessage
+        _moreAboutErrorText.value = sw.toString()
     }
 
     fun moreAboutErrorClicked() {
         _additionalInfoVisibility.value = _additionalInfoVisibility.value == false
-    }
-
-    fun setArguments(args: Bundle) {
-        val exception = args.getSerializable(Shared.ERROR_EXCEPTION_TAG) as Exception
-
-        val sw = StringWriter()
-        exception.printStackTrace(PrintWriter(sw))
-        _errorBaseInfoText.value = exception.localizedMessage
-        _moreAboutErrorText.value = sw.toString()
     }
 }

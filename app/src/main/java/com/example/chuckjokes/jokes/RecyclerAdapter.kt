@@ -28,9 +28,7 @@ class RecyclerAdapter : RecyclerView.Adapter<VH>() {
         holder.binding.jokeText.text = item.text
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount() = items.size
 
     fun setData(items: List<JokesModel.JokeItem>, itemCount: Int) {
         this.items = items

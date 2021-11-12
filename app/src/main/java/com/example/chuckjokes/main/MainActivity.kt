@@ -10,10 +10,8 @@ import com.example.chuckjokes.browser.BrowserFragment
 import com.example.chuckjokes.error.ErrorFragment
 import com.example.chuckjokes.jokes.JokesFragment
 import com.example.chuckjokes.R
-import com.example.chuckjokes.Shared
 import com.example.chuckjokes.databinding.ActivityMainBinding
 import com.example.chuckjokes.viewModelsExt
-import com.example.chuckjokes.Shared.Direction.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +46,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.selectedNavItemId.observe(this) {
-            changeFragmentByDirection(direction = it)
+            when (it) {
+                R.id.jokes_item -> setJokesFragment()
+                R.id.browser_item -> setBrowserFragment()
+            }
         }
     }
 
@@ -58,25 +59,21 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun changeFragmentByDirection(direction: Shared.Direction, args: Bundle? = null) {
-        changeFragment(
-            when (direction) {
-                JOKES -> {
-                    setSelectedNavItem(R.id.jokes_item)
-                    JokesFragment()
-                }
-                BROWSER -> {
-                    setSelectedNavItem(R.id.browser_item)
-                    BrowserFragment()
-                }
-                ERROR -> {
-                    ErrorFragment.newInstance(args)
-                }
-            }
-        )
-    }
-
     private fun setSelectedNavItem(id: Int) {
         binding.bottomNavigation.selectedItemId = id
+    }
+
+    fun setErrorFragment(ex: Exception) {
+        changeFragment(ErrorFragment.newInstance(ex))
+    }
+
+    private fun setBrowserFragment() {
+        setSelectedNavItem(R.id.browser_item)
+        changeFragment(BrowserFragment())
+    }
+
+    private fun setJokesFragment() {
+        setSelectedNavItem(R.id.jokes_item)
+        changeFragment(JokesFragment())
     }
 }

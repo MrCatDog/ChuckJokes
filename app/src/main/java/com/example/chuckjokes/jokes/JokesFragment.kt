@@ -10,13 +10,15 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.chuckjokes.R
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chuckjokes.Shared
 import com.example.chuckjokes.databinding.JokesFragmentBinding
 import com.example.chuckjokes.main.MainActivity
 import com.example.chuckjokes.viewModelsExt
 class JokesFragment : Fragment() {
 
-    private lateinit var binding: JokesFragmentBinding
+    private var _binding: JokesFragmentBinding? = null
+    private val binding
+        get() = _binding!!
+
     private lateinit var recyclerAdapter: RecyclerAdapter
 
     private val viewModel by viewModelsExt {
@@ -25,7 +27,7 @@ class JokesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = JokesFragmentBinding.inflate(inflater)
+        _binding = JokesFragmentBinding.inflate(inflater)
         val linearLayoutManager = LinearLayoutManager(context)
         binding.JokesList.layoutManager = linearLayoutManager
         recyclerAdapter = RecyclerAdapter()
@@ -45,10 +47,15 @@ class JokesFragment : Fragment() {
             recyclerAdapter.setData(it, JokesConstants.JOKES_VALUE)
         }
 
-        viewModel.exceptionBundle.observe(viewLifecycleOwner) {
-            (requireActivity() as MainActivity).changeFragmentByDirection(Shared.Direction.ERROR, it)
+        viewModel.exception.observe(viewLifecycleOwner) {
+            (requireActivity() as MainActivity).setErrorFragment(it)
         }
 
         return binding.JokesList
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

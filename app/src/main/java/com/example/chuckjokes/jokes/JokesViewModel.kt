@@ -1,10 +1,8 @@
 package com.example.chuckjokes.jokes
 
-import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.chuckjokes.Shared
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
@@ -13,7 +11,6 @@ import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.FutureTask
 
-//TODO а не вынести ли это в Shared?
 object JokesConstants {
     const val VISIBLE_THRESHOLD = 5
 
@@ -37,9 +34,9 @@ class JokesViewModel : ViewModel() {
     val jokes: LiveData<List<JokesModel.JokeItem>>
         get() = _jokes
 
-    private val _exceptionBundle = MutableLiveData<Bundle>()
-    val exceptionBundle: LiveData<Bundle>
-        get() = _exceptionBundle
+    private val _exception = MutableLiveData<Exception>()
+    val exception: LiveData<Exception>
+        get() = _exception
 
     init {
         onScrolledToEnd()
@@ -82,9 +79,7 @@ class JokesViewModel : ViewModel() {
             }
             _jokes.value = model.items
         } catch (ex: Exception) {
-            val args = Bundle()
-            args.putSerializable(Shared.ERROR_EXCEPTION_TAG, ex)
-            _exceptionBundle.value = args
+            _exception.value = ex
         }
         model.isLoading = false
     }

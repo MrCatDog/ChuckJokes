@@ -19,7 +19,9 @@ const val JAVA_SCRIPT_ENABLED = true
 
 class BrowserFragment : Fragment() {
 
-    private lateinit var binding: BrowserFragmentBinding
+    private var _binding: BrowserFragmentBinding? = null
+    private val binding
+        get() = _binding!!
 
     private val viewModel by viewModelsExt {
         BrowserViewModel()
@@ -29,15 +31,16 @@ class BrowserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = BrowserFragmentBinding.inflate(inflater)
+        _binding = BrowserFragmentBinding.inflate(inflater)
 
         binding.browser.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean = viewModel.shouldOverrideUrlLoading()
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean =
+                viewModel.shouldOverrideUrlLoading()
         }
 
         binding.browser.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(wv: WebView, progress: Int) {
-               viewModel.changeProgress(progress)
+                viewModel.changeProgress(progress)
             }
         }
 
@@ -46,24 +49,30 @@ class BrowserFragment : Fragment() {
         }
 
         viewModel.visibility.observe(viewLifecycleOwner) {
-            if(it) {
-                binding.progressBar.visibility = View.VISIBLE
+            binding.progressBar.visibility = if (it) {
+                View.VISIBLE
             } else {
-                binding.progressBar.visibility = View.GONE
+                View.GONE
             }
         }
 
-        val settings = binding.browser.settings
-        settings.loadWithOverviewMode = LOAD_WITH_OVERVIEW_MODE
-        settings.useWideViewPort = USE_WIDE_VIEWPORT
-        settings.builtInZoomControls = BUILT_IN_ZOOM_CONTROLS
-        settings.displayZoomControls = DISPLAY_ZOOM_CONTROLS
-        settings.javaScriptEnabled = JAVA_SCRIPT_ENABLED
+        binding.browser.settings.also {
+            it.loadWithOverviewMode = LOAD_WITH_OVERVIEW_MODE
+            it.useWideViewPort = USE_WIDE_VIEWPORT
+            it.builtInZoomControls = BUILT_IN_ZOOM_CONTROLS
+            it.displayZoomControls = DISPLAY_ZOOM_CONTROLS
+            it.javaScriptEnabled = JAVA_SCRIPT_ENABLED
+        }
 
         viewModel.url.observe(viewLifecycleOwner) {
             binding.browser.loadUrl(it)
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

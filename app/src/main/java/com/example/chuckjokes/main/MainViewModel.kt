@@ -3,37 +3,34 @@ package com.example.chuckjokes.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chuckjokes.util.MutableLiveEvent
 import com.example.chuckjokes.R
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _selectedNavItemId = MutableLiveData<Int>()
-    val selectedNavItemId : LiveData<Int>
+    val selectedNavItemId: LiveData<Int>
         get() = _selectedNavItemId
 
+    private val _navigationEvent = MutableLiveEvent<Int>()
+    val navigationEvent: LiveData<Int>
+        get() = _navigationEvent
+
     init {
-        jokesItemSelected()
+        setFragment(R.id.jokes_item)
     }
 
-    fun onNavigationItemItemSelected(itemId : Int): Boolean {
-        when(itemId) {
-            R.id.jokes_item -> jokesItemSelected()
-            R.id.browser_item -> browserItemSelected()
-            else -> return false
+    fun onNavigationItemItemSelected(itemId: Int): Boolean =
+        if (_selectedNavItemId.value != itemId) {
+            setFragment(itemId)
+            true
+        } else {
+            false
         }
-        return true
-    }
 
-    private fun jokesItemSelected() {
-        if (_selectedNavItemId.value != R.id.jokes_item) {
-            _selectedNavItemId.value = R.id.jokes_item
-        }
-    }
-
-    private fun browserItemSelected() {
-        if (_selectedNavItemId.value != R.id.browser_item) {
-            _selectedNavItemId.value = R.id.browser_item
-        }
+    private fun setFragment(id: Int) {
+        _selectedNavItemId.value = id
+        _navigationEvent.setValue(id)
     }
 
     fun onAboutClicked() {

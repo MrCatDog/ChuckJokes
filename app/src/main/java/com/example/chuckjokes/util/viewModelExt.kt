@@ -1,4 +1,4 @@
-package com.example.chuckjokes
+package com.example.chuckjokes.util
 
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels

@@ -1,4 +1,4 @@
-package com.example.chuckjokes.error
+package com.example.chuckjokes.fragments.error
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chuckjokes.databinding.ErrorFragmentBinding
-import com.example.chuckjokes.viewModelsExt
+import com.example.chuckjokes.util.viewModelsExt
 
 const val ERROR_EXCEPTION_TAG = "errorException"
 

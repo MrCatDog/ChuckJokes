@@ -1,4 +1,4 @@
-package com.example.chuckjokes
+package com.example.chuckjokes.util
 
 import android.util.Log
 import androidx.annotation.MainThread

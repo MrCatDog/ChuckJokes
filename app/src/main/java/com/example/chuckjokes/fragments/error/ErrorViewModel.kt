@@ -1,8 +1,9 @@
-package com.example.chuckjokes.error
+package com.example.chuckjokes.fragments.error
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chuckjokes.util.MutableLiveEvent
 import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.Exception

@@ -1,4 +1,4 @@
-package com.example.chuckjokes.jokes
+package com.example.chuckjokes.fragments.jokes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

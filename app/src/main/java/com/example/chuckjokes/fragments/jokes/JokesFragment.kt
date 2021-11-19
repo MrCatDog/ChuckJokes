@@ -1,4 +1,4 @@
-package com.example.chuckjokes.jokes
+package com.example.chuckjokes.fragments.jokes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,8 @@ import com.example.chuckjokes.R
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckjokes.databinding.JokesFragmentBinding
 import com.example.chuckjokes.main.MainActivity
-import com.example.chuckjokes.viewModelsExt
+import com.example.chuckjokes.util.viewModelsExt
+
 class JokesFragment : Fragment() {
 
     private var _binding: JokesFragmentBinding? = null

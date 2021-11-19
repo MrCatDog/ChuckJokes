@@ -1,4 +1,4 @@
-package com.example.chuckjokes.jokes
+package com.example.chuckjokes.fragments.jokes
 
 import java.util.ArrayList
 

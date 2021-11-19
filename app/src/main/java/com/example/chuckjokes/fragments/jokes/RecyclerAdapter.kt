@@ -1,7 +1,7 @@
-package com.example.chuckjokes.jokes
+package com.example.chuckjokes.fragments.jokes
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chuckjokes.jokes.RecyclerAdapter.VH
+import com.example.chuckjokes.fragments.jokes.RecyclerAdapter.VH
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View

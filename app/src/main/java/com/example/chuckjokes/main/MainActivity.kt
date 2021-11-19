@@ -6,12 +6,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import com.example.chuckjokes.browser.BrowserFragment
-import com.example.chuckjokes.error.ErrorFragment
-import com.example.chuckjokes.jokes.JokesFragment
+import com.example.chuckjokes.fragments.browser.BrowserFragment
+import com.example.chuckjokes.fragments.error.ErrorFragment
+import com.example.chuckjokes.fragments.jokes.JokesFragment
 import com.example.chuckjokes.R
 import com.example.chuckjokes.databinding.ActivityMainBinding
-import com.example.chuckjokes.viewModelsExt
+import com.example.chuckjokes.util.viewModelsExt
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,11 +45,19 @@ class MainActivity : AppCompatActivity() {
             popup.show()
         }
 
+
+        // TODO: при пересоздании фрагмент пересоздаётся полностью, изучить SingleLiveEvent
         viewModel.selectedNavItemId.observe(this) {
-            when (it) {
-                R.id.jokes_item -> setJokesFragment()
-                R.id.browser_item -> setBrowserFragment()
-            }
+            //setSelectedNavItem(it)
+        }
+
+        viewModel.navigationEvent.observe(this) {
+            changeFragment(
+                when (it) {
+                    R.id.jokes_item -> JokesFragment()
+                    else -> BrowserFragment()
+                }
+            )
         }
     }
 
@@ -67,13 +75,4 @@ class MainActivity : AppCompatActivity() {
         changeFragment(ErrorFragment.newInstance(ex))
     }
 
-    private fun setBrowserFragment() {
-        setSelectedNavItem(R.id.browser_item)
-        changeFragment(BrowserFragment())
-    }
-
-    private fun setJokesFragment() {
-        setSelectedNavItem(R.id.jokes_item)
-        changeFragment(JokesFragment())
-    }
 }

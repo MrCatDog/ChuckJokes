@@ -1,4 +1,4 @@
-package com.example.chuckjokes.browser
+package com.example.chuckjokes.fragments.browser
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.example.chuckjokes.databinding.BrowserFragmentBinding
-import com.example.chuckjokes.viewModelsExt
+import com.example.chuckjokes.util.viewModelsExt
 
 const val LOAD_WITH_OVERVIEW_MODE = true
 const val USE_WIDE_VIEWPORT = true
@@ -33,6 +33,7 @@ class BrowserFragment : Fragment() {
     ): View {
         _binding = BrowserFragmentBinding.inflate(inflater)
 
+        //TODO: каждый раз при пересоздании вью webView и webChrome клиенты меняются, это норм?
         binding.browser.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean =
                 viewModel.shouldOverrideUrlLoading()
@@ -42,6 +43,14 @@ class BrowserFragment : Fragment() {
             override fun onProgressChanged(wv: WebView, progress: Int) {
                 viewModel.changeProgress(progress)
             }
+        }
+
+        binding.browser.settings.apply {
+            loadWithOverviewMode = LOAD_WITH_OVERVIEW_MODE
+            useWideViewPort = USE_WIDE_VIEWPORT
+            builtInZoomControls = BUILT_IN_ZOOM_CONTROLS
+            displayZoomControls = DISPLAY_ZOOM_CONTROLS
+            javaScriptEnabled = JAVA_SCRIPT_ENABLED
         }
 
         viewModel.progress.observe(viewLifecycleOwner) {
@@ -54,14 +63,6 @@ class BrowserFragment : Fragment() {
             } else {
                 View.GONE
             }
-        }
-
-        binding.browser.settings.also {
-            it.loadWithOverviewMode = LOAD_WITH_OVERVIEW_MODE
-            it.useWideViewPort = USE_WIDE_VIEWPORT
-            it.builtInZoomControls = BUILT_IN_ZOOM_CONTROLS
-            it.displayZoomControls = DISPLAY_ZOOM_CONTROLS
-            it.javaScriptEnabled = JAVA_SCRIPT_ENABLED
         }
 
         viewModel.url.observe(viewLifecycleOwner) {

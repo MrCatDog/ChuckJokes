@@ -18,9 +18,7 @@ class BrowserViewModel : ViewModel() {
     val visibility : LiveData<Boolean>
         get() = _visibility
 
-    private val _url = MutableLiveData<String>().apply {
-        value = DEFAULT_URL
-    }
+    private val _url = MutableLiveData(DEFAULT_URL)
     val url : LiveData<String>
         get() = _url
 

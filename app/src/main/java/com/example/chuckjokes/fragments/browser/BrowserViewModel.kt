@@ -18,13 +18,11 @@ class BrowserViewModel : ViewModel() {
     val visibility : LiveData<Boolean>
         get() = _visibility
 
-    private val _url = MutableLiveEvent<String>()
+    private val _url = MutableLiveData<String>().apply {
+        value = DEFAULT_URL
+    }
     val url : LiveData<String>
         get() = _url
-
-    init {
-        _url.setValue(DEFAULT_URL)
-    }
 
     fun changeProgress(newProgress: Int) {
         _progress.value = newProgress

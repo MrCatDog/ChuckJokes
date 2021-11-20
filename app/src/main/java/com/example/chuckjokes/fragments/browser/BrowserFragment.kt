@@ -1,5 +1,6 @@
 package com.example.chuckjokes.fragments.browser
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
@@ -27,13 +28,13 @@ class BrowserFragment : Fragment() {
         BrowserViewModel()
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = BrowserFragmentBinding.inflate(inflater)
 
-        //TODO: каждый раз при пересоздании вью webView и webChrome клиенты меняются, это норм?
         binding.browser.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean =
                 viewModel.shouldOverrideUrlLoading()
@@ -52,6 +53,10 @@ class BrowserFragment : Fragment() {
             displayZoomControls = DISPLAY_ZOOM_CONTROLS
             javaScriptEnabled = JAVA_SCRIPT_ENABLED
         }
+//        TODO: save all this shit in onPause() at viewModel, restore after rotation (MAYBE) if it wasn't initialized, use code above
+//        binding.browser.webChromeClient
+//        binding.browser.webViewClient
+//        binding.browser.settings
 
         viewModel.progress.observe(viewLifecycleOwner) {
             binding.progressBar.progress = it
@@ -70,6 +75,11 @@ class BrowserFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //todo:
     }
 
     override fun onDestroyView() {

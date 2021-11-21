@@ -3,7 +3,6 @@ package com.example.chuckjokes.fragments.browser
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.chuckjokes.util.MutableLiveEvent
 
 const val MAX_PROGRESS = 100
 const val DEFAULT_URL = "http://www.icndb.com/api/"

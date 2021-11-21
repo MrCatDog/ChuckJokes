@@ -35,28 +35,29 @@ class BrowserFragment : Fragment() {
     ): View {
         _binding = BrowserFragmentBinding.inflate(inflater)
 
-        binding.browser.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean =
-                viewModel.shouldOverrideUrlLoading()
-        }
+        savedInstanceState?.apply {
+            //TODO: UI не сохраняет, но хотяб не перезагружается при перевороте, зато слетает масштабирование загруженной страницы
+            binding.browser.restoreState(this)
+        } ?: run {
+            binding.browser.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean =
+                    viewModel.shouldOverrideUrlLoading()
+            }
 
-        binding.browser.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(wv: WebView, progress: Int) {
-                viewModel.changeProgress(progress)
+            binding.browser.webChromeClient = object : WebChromeClient() {
+                override fun onProgressChanged(wv: WebView, progress: Int) {
+                    viewModel.changeProgress(progress)
+                }
+            }
+
+            binding.browser.settings.apply {
+                loadWithOverviewMode = LOAD_WITH_OVERVIEW_MODE
+                useWideViewPort = USE_WIDE_VIEWPORT
+                builtInZoomControls = BUILT_IN_ZOOM_CONTROLS
+                displayZoomControls = DISPLAY_ZOOM_CONTROLS
+                javaScriptEnabled = JAVA_SCRIPT_ENABLED
             }
         }
-
-        binding.browser.settings.apply {
-            loadWithOverviewMode = LOAD_WITH_OVERVIEW_MODE
-            useWideViewPort = USE_WIDE_VIEWPORT
-            builtInZoomControls = BUILT_IN_ZOOM_CONTROLS
-            displayZoomControls = DISPLAY_ZOOM_CONTROLS
-            javaScriptEnabled = JAVA_SCRIPT_ENABLED
-        }
-//        TODO: save all this shit in onPause() at viewModel, restore after rotation (MAYBE) if it wasn't initialized, use code above
-//        binding.browser.webChromeClient
-//        binding.browser.webViewClient
-//        binding.browser.settings
 
         viewModel.progress.observe(viewLifecycleOwner) {
             binding.progressBar.progress = it
@@ -70,16 +71,13 @@ class BrowserFragment : Fragment() {
             }
         }
 
+        binding.browser.saveState(Bundle())
+
         viewModel.url.observe(viewLifecycleOwner) {
             binding.browser.loadUrl(it)
         }
 
         return binding.root
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //todo:
     }
 
     override fun onDestroyView() {

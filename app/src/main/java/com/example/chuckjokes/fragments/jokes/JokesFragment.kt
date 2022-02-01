@@ -20,6 +20,7 @@ class JokesFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    //TODO: это зачем сюда вынесено?
     private lateinit var recyclerAdapter: RecyclerAdapter
 
     private val viewModel by viewModelsExt {

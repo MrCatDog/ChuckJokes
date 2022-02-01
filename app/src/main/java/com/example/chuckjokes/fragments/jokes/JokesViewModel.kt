@@ -3,10 +3,13 @@ package com.example.chuckjokes.fragments.jokes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chuckjokes.util.ServerApi
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.FutureTask
@@ -24,11 +27,19 @@ object JokesConstants {
     const val JOKE_TEXT_TAG = "joke"
 }
 
+const val BASE_URL = "http://api.icndb.com/"
+
 class JokesViewModel : ViewModel() {
 
     private val model: JokesModel = JokesModel()
     private val executor = Executors.newSingleThreadExecutor()
     private val client = OkHttpClient()
+
+    private val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+    private val serverApi: ServerApi = retrofit.create(ServerApi::class.java)
 
     private val _jokes = MutableLiveData<List<JokesModel.JokeItem>>()
     val jokes: LiveData<List<JokesModel.JokeItem>>

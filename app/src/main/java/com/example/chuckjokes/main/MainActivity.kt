@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // TODO: при пересоздании фрагмент пересоздаётся полностью, изучить SingleLiveEvent
+        // TODO: зачем вообще эта обработка
         viewModel.selectedNavItemId.observe(this) {
             //setSelectedNavItem(it)
         }

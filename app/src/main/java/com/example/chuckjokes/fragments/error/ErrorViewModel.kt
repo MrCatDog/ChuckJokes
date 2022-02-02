@@ -8,7 +8,7 @@ import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.Exception
 
-class ErrorViewModel(ex : Exception) : ViewModel() {
+class ErrorViewModel(ex : Throwable) : ViewModel() {
 
     private val _additionalInfoVisibility = MutableLiveData<Boolean>()
     val additionalInfoVisibility : LiveData<Boolean>

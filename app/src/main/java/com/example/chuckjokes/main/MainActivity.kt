@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = id
     }
 
-    fun setErrorFragment(ex: Exception) {
+    fun setErrorFragment(ex: Throwable) {
         changeFragment(ErrorFragment.newInstance(ex))
     }
 

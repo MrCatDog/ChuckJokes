@@ -46,7 +46,7 @@ class JokesFragment : Fragment() {
         })
 
         viewModel.jokes.observe(viewLifecycleOwner) {
-            recyclerAdapter.setData(it, JokesConstants.JOKES_VALUE)
+            recyclerAdapter.setData(it, JOKES_VALUE)
         }
 
         viewModel.exception.observe(viewLifecycleOwner) {

@@ -17,7 +17,7 @@ class ErrorFragment : Fragment() {
         get() = _binding!!
 
     private val viewModel by viewModelsExt {
-        ErrorViewModel(requireArguments().getSerializable(ERROR_EXCEPTION_TAG) as Throwable)
+        ErrorViewModel(requireArguments().getSerializable(ERROR_EXCEPTION_TAG) as Throwable) //todo require or arguments?
     }
 
     override fun onCreateView(
@@ -48,16 +48,6 @@ class ErrorFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    companion object ErrorFragmentFactory {
-        fun newInstance(ex: Throwable): ErrorFragment {
-            val myFragment = ErrorFragment()
-            val args = Bundle()
-
-            args.putSerializable(ERROR_EXCEPTION_TAG, ex)
-            return myFragment.also { it.arguments = args }
-        }
     }
 
     override fun onDestroyView() {

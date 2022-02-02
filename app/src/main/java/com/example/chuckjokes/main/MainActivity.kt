@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.Fragment
-import com.example.chuckjokes.fragments.browser.BrowserFragment
-import com.example.chuckjokes.fragments.error.ErrorFragment
-import com.example.chuckjokes.fragments.jokes.JokesFragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.chuckjokes.R
 import com.example.chuckjokes.databinding.ActivityMainBinding
 import com.example.chuckjokes.util.viewModelsExt
@@ -26,9 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNavigation.setOnItemSelectedListener { item: MenuItem ->
-            viewModel.onNavigationItemItemSelected(item.itemId)
-        }
+        binding.bottomNavigation.setupWithNavController(binding.mainContainerView.getFragment<NavHostFragment>().navController)
 
         binding.toolbar.menuBtn.setOnClickListener { v: View ->
             val popup = PopupMenu(this, v)
@@ -45,34 +41,13 @@ class MainActivity : AppCompatActivity() {
             popup.show()
         }
 
+        //TODO: разобраться с навигационным стеком.
+    // По переходу на фрагмент ошибки, вернутся назад к ленте нельзя,
+    // нижнее меню подсвечивает не тот элемент и выйти на главный экран нельзя вовсе.
 
-        // TODO: зачем вообще эта обработка
-        viewModel.selectedNavItemId.observe(this) {
-            //setSelectedNavItem(it)
-        }
-
-        viewModel.navigationEvent.observe(this) {
-            changeFragment(
-                when (it) {
-                    R.id.jokes_item -> JokesFragment()
-                    else -> BrowserFragment()
-                }
-            )
-        }
+        // TODO: теряется подсветка выбранного элемента. почему так? мб из-за того что выше.
+//        viewModel.selectedNavItemId.observe(this) {
+//            binding.bottomNavigation.selectedItemId = it
+//        }
     }
-
-    private fun changeFragment(newFragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(binding.fragmentView.id, newFragment)
-            .commit()
-    }
-
-    private fun setSelectedNavItem(id: Int) {
-        binding.bottomNavigation.selectedItemId = id
-    }
-
-    fun setErrorFragment(ex: Throwable) {
-        changeFragment(ErrorFragment.newInstance(ex))
-    }
-
 }

@@ -62,14 +62,14 @@ class JokesViewModel : ViewModel() {
                             categories = it.categories.joinToString(separator = JOKE_CATEGORY_DELIMITER)
                         )
                     }.let {
-                        if (it != null) {
+                        if (it != null) { //todo пиздец какой, проверка на null внутри let
                             model.items.addAll(it)
                         }
                     } //todo придумать что-то с обработкой этой ошибки и не только, у тебя ещё и Value нулабельный
                     _jokes.value = model.items
+                    model.isLoading = false
                 }
             })
-        model.isLoading = false
     }
 
     fun onScrolledToEnd(lastVisibleItemPosition: Int, itemCount: Int) {

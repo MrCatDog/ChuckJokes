@@ -7,10 +7,13 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.chuckjokes.R
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chuckjokes.databinding.JokesFragmentBinding
+import com.example.chuckjokes.fragments.error.ERROR_EXCEPTION_TAG
 import com.example.chuckjokes.main.MainActivity
 import com.example.chuckjokes.util.viewModelsExt
 
@@ -27,21 +30,33 @@ class JokesFragment : Fragment() {
         JokesViewModel()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = JokesFragmentBinding.inflate(inflater)
         val linearLayoutManager = LinearLayoutManager(context)
         binding.JokesList.layoutManager = linearLayoutManager
         recyclerAdapter = RecyclerAdapter()
         binding.JokesList.adapter = recyclerAdapter
 
-        val dividerItemDecoration = DividerItemDecoration(binding.JokesList.context, linearLayoutManager.orientation)
-        dividerItemDecoration.setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.divider_item_shape, null)!!)
+        val dividerItemDecoration =
+            DividerItemDecoration(binding.JokesList.context, linearLayoutManager.orientation)
+        dividerItemDecoration.setDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.divider_item_shape,
+                null
+            )!!
+        )
         binding.JokesList.addItemDecoration(dividerItemDecoration)
 
         binding.JokesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(unused: RecyclerView, dx: Int, dy: Int) {
-                viewModel.onScrolledToEnd(linearLayoutManager.findLastVisibleItemPosition(), linearLayoutManager.itemCount)
+                viewModel.onScrolledToEnd(
+                    linearLayoutManager.findLastVisibleItemPosition(),
+                    linearLayoutManager.itemCount
+                )
             }
         })
 
@@ -50,7 +65,10 @@ class JokesFragment : Fragment() {
         }
 
         viewModel.exception.observe(viewLifecycleOwner) {
-            (requireActivity() as MainActivity).setErrorFragment(it)
+            findNavController().navigate(
+                R.id.action_jokesFragment_to_errorFragment,
+                bundleOf(ERROR_EXCEPTION_TAG to it)
+            )
         }
 
         return binding.JokesList

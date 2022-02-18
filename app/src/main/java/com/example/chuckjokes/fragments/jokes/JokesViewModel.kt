@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chuckjokes.util.JokesResponse
+import com.example.chuckjokes.util.MutableLiveEvent
 import com.example.chuckjokes.util.ServerApi
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +32,7 @@ class JokesViewModel : ViewModel() {
     val jokes: LiveData<List<JokesModel.JokeItem>>
         get() = _jokes
 
-    private val _exception = MutableLiveData<Throwable>()
+    private val _exception = MutableLiveEvent<Throwable>()
     val exception: LiveData<Throwable>
         get() = _exception
 
@@ -48,7 +49,8 @@ class JokesViewModel : ViewModel() {
         serverApi.getRandomJokes(JOKES_VALUE)
             .enqueue(object : Callback<JokesResponse> {
                 override fun onFailure(call: Call<JokesResponse>, t: Throwable) {
-                    _exception.value = t
+                    _exception.setValue(t)
+                    model.isLoading = false
                 }
 
                 override fun onResponse(
